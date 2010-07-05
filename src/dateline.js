@@ -97,7 +97,7 @@
 				name:this.days[fDay],
 				shortname:this.daysShort[fDay],
 				num:(((i+1)<10)?("0"+(i+1)):(i+1)),
-				date:y+"-"+m+"-"+d,
+				date:y+"-"+m+"-"+d
 			});
 			fDay = (fDay == 6) ? 0: ++fDay;
 		}
