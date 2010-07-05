@@ -130,10 +130,10 @@
 		this.date.setMonth(this.date.getMonth() + 1);
 	};
 	inlineCalendar.prototype.prevMonth=function(){
-		this.date.setYear(this.date.getFullYear() + 1);
+		this.date.setMonth(this.date.getMonth() - 1);
 	};
 	inlineCalendar.prototype.nextYear=function(){
-		this.date.setMonth(this.date.getMonth() - 1);
+		this.date.setYear(this.date.getFullYear() + 1);
 	};
 	inlineCalendar.prototype.prevYear=function(){
 		this.date.setYear(this.date.getFullYear() - 1);
