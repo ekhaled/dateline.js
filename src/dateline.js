@@ -9,6 +9,7 @@
 	    this.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 	    this.dayNumbers = {"sunday": 0,"monday": 1,"tuesday": 2,"wednesday": 3,"thursday": 4,"friday": 5,"saturday": 6
 	    };
+		this.eventHotspots=[];
 	};
 	
 	inlineCalendar.prototype.init=function(opts){
@@ -31,7 +32,7 @@
 		this.boxSeparatorColor=opts.boxSeparatorColor||"rgba(255,255,255,1)";
 		
 		this.connectorLine=opts.connectorLine||true;
-		this.connectorColor=opts.connectorColor||"rgba(0,0,255,1)";
+		this.connectorColor=opts.connectorColor||"rgba(255,255,255,1)";
 		
 		this.textShadow=opts.textShadow||true;
 		this.textShadowOffsetX = opts.textShadowOffsetX||0;
@@ -39,12 +40,21 @@
 		this.textShadowBlur = opts.textShadowBlur||0; 
 		this.textShadowColor = opts.textShadowColor||"#5e5e5e";
 		
-		//Today style
+			//Today styles
 		this.todayBoxColor=opts.todayBoxColor||this.boxColor;
 		this.todayBoxSeparatorColor=opts.todayBoxSeparatorColor||this.boxSeparatorColor;
 		this.todayBoxFont=opts.todayBoxFont||this.boxFont;
 		this.todayTextColor=opts.todayTextColor||this.textColor;
+			//END Today styles
+			//style days with events
+		this.eventedBoxColor=opts.eventedBoxColor||this.boxColor;
+		this.eventedBoxSeparatorColor=opts.eventedBoxSeparatorColor||this.boxSeparatorColor;
+		this.eventedBoxFont=opts.eventedBoxFont||this.boxFont;
+		this.eventedTextColor=opts.eventedTextColor||this.textColor;	
+			//END style days with events
 		
+		this.events=opts.events||[];
+		this.callBack=opts.callBack||opts.callback||function(){};
 		this.date = opts.date||new Date();
 		if(opts.canvas){
 			this.canvas=opts.canvas;
@@ -56,6 +66,16 @@
 		}else{
 			throw new Error("Canvas does not support 2d context");
 		}
+		
+		
+		
+		this.drawCalendar();
+		
+		var _this=this;
+		this.canvas.onclick=null;
+		this.canvas.onclick=function(event){
+			_this.handleClicks(event);
+		};
 	};
 	
 	//-----------DATE CALCs
@@ -63,11 +83,22 @@
 		var res=[];
 		var numDays=this.daysInMonth(this.date);
 		var fDay=this.firstDayOfMonth(this.date);
+		
+		var y=this.date.getFullYear();
+		var m=this.date.getMonth()+1;
+		m=(m<10)?("0"+m):(m);
+		
 		for(var i=0;i<numDays;i++){
+			
+			var d=(i+1);
+			d=(d<10)?("0"+d):(d);
+			
+			
 			res.push({
 				name:this.days[fDay],
 				shortname:this.daysShort[fDay],
-				num:(((i+1)<10)?("0"+(i+1)):(i+1))
+				num:(((i+1)<10)?("0"+(i+1)):(i+1)),
+				date:y+"-"+m+"-"+d,
 			});
 			fDay = (fDay == 6) ? 0: ++fDay;
 		}
@@ -116,9 +147,13 @@
 	
 	//-----------DRAWINGS
 	inlineCalendar.prototype.drawCalendar=function(){
-		//this.primaryContext.scale(1.5,1.5);
+		this.eventHotspots=[]; //empty out event hotspots
 		var md=this.monthDetail();
 		var totalWidth=(this.spacing+this.boxWidth)*md.length;
+		
+		//clear canvas
+		this.primaryContext.clearRect(0,0,950,200);
+		
 		if(this.connectorLine){
 			this.drawConnectorLine(this.startX,this.startY+(this.boxHeight/2),totalWidth);
 		}
@@ -127,14 +162,14 @@
 				this.startY,
 				this.boxWidth,
 				this.boxHeight,this.cornerRadius,
-				{"top":md[i].shortname,"bottom":md[i].num}
+				md[i]
 				);
 		}
 	};
-	inlineCalendar.prototype.drawMonthBox=function(x,y,width,height,radius,text){
+	inlineCalendar.prototype.drawMonthBox=function(x,y,width,height,radius,day){
 		var ctx=this.primaryContext;
 		
-		var notToday=!this.isToday(text.bottom);
+		var notToday=!this.isToday(day.num);
 		//box
 		ctx.fillStyle=notToday?this.boxColor:this.todayBoxColor;  
 		ctx.beginPath();  
@@ -185,9 +220,13 @@
 		ctx.font=notToday?this.boxFont:this.todayBoxFont;
 		ctx.textAlign=this.boxTextAlign;
 		ctx.fillStyle = notToday?this.textColor:this.todayTextColor;  
-		ctx.fillText(text.top, x+(width/2), y+12,width);
-		ctx.fillText(text.bottom, x+(width/2), y+(height-4),width);
+		ctx.fillText(day.shortname, x+(width/2), y+12,width);
+		ctx.fillText(day.num, x+(width/2), y+(height-4),width);
 		ctx.restore();
+		
+		//add this day to hotspots stack
+		this.eventHotspots.push({x:x,y:y,width:width,height:height,day:day});
+		
 	};
 	inlineCalendar.prototype.drawConnectorLine=function(x,y,length){
 		var ctx=this.primaryContext;
