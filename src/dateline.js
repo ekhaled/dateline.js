@@ -240,6 +240,42 @@
 	//-----------END DRAWINGS
 	
 	
-	
+	//EVENTS
+	inlineCalendar.prototype.getCoords=function(e){
+		if(window.jQuery){
+			var offset=$(this.canvas).offset();
+			return {x:(e.clientX-offset.left),y:(e.clientY-offset.top)};
+		}else{
+			var elem = this.canvas,
+			box=elem.getBoundingClientRect(),
+			doc = elem.ownerDocument,
+	        body = doc.body,
+	        docElem = doc.documentElement,
+
+			clientTop = docElem.clientTop || body.clientTop || 0,
+			clientLeft = docElem.clientLeft || body.clientLeft || 0,
+
+			offsetTop = box.top + (this.canvas.pageYOffset || body.scrollTop) - clientTop,
+			offsetLeft = box.left + (this.canvas.pageXOffset || body.scrollLeft) - clientLeft;
+
+			return {x:(e.clientX-offsetLeft),y:(e.clientY-offsetTop)};
+		}
+		
+	};
+	inlineCalendar.prototype.handleClicks=function(e){
+		var coords=this.getCoords(e);
+		rects=this.eventHotspots;
+		for ( var i = 0; i < rects.length; i++ ) {
+		    var rect = rects[i];
+		    if ( coords.x >= rect.x && coords.x <= rect.x + rect.width
+		    &&   coords.y >= rect.y && coords.y <= rect.y + rect.height ) {
+		        this.triggerCallback(rect.day);
+		    }
+		}
+	};
+	inlineCalendar.prototype.triggerCallback=function(day){
+		this.callBack.call(this,day);
+	};
+	//END EVENTS
 	
 })();
