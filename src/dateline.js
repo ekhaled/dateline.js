@@ -170,8 +170,14 @@
 		var ctx=this.primaryContext;
 		
 		var notToday=!this.isToday(day.num);
+		var hasEvent=false;
+		if(day.date in this.events){
+			hasEvent=true;
+		}
 		//box
-		ctx.fillStyle=notToday?this.boxColor:this.todayBoxColor;  
+		ctx.fillStyle=notToday?this.boxColor:this.todayBoxColor;
+		ctx.fillStyle=hasEvent?this.eventedBoxColor:ctx.fillStyle; 
+		 
 		ctx.beginPath();  
 		ctx.moveTo(x,y+radius);  
 		ctx.lineTo(x,y+height-radius);  
@@ -185,8 +191,9 @@
 		ctx.fill();
 		//box seperator
 		if(this.boxSeparator){
-			ctx.strokeStyle=ctx.fillStyle=
-			notToday?this.boxSeparatorColor:this.todayBoxSeparatorColor; 
+			var bsc=notToday?this.boxSeparatorColor:this.todayBoxSeparatorColor;
+			bsc=hasEvent?this.eventedBoxSeparatorColor:bsc;
+			ctx.strokeStyle=ctx.fillStyle=bsc;
 			ctx.beginPath();  
 			ctx.moveTo(x,y+((height/2)-0)); 
 			ctx.lineTo(x+((width/2)-2),y+((height/2)-0));
@@ -217,9 +224,17 @@
 			ctx.shadowBlur = this.textShadowBlur;  
 			ctx.shadowColor = this.textShadowColor;
 		}
-		ctx.font=notToday?this.boxFont:this.todayBoxFont;
+		
+		var fnt=notToday?this.boxFont:this.todayBoxFont;
+		fnt=hasEvent?this.eventedBoxFont:fnt;
+		ctx.font=fnt;
+		
 		ctx.textAlign=this.boxTextAlign;
-		ctx.fillStyle = notToday?this.textColor:this.todayTextColor;  
+		
+		var tfl=notToday?this.textColor:this.todayTextColor;
+		tfl=hasEvent?this.eventedTextColor:tfl;
+		ctx.fillStyle = tfl
+		  
 		ctx.fillText(day.shortname, x+(width/2), y+12,width);
 		ctx.fillText(day.num, x+(width/2), y+(height-4),width);
 		ctx.restore();
