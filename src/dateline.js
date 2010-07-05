@@ -42,6 +42,7 @@
 		
 		this.showMonthName=(typeof opts.showMonthName !="undefined")?opts.showMonthName:true;
 		this.monthNameOnTop=(typeof opts.monthNameOnTop !="undefined")?opts.monthNameOnTop:true;
+		this.monthNameAlign=opts.monthNameAlign||"left";
 		
 			//Today styles
 		this.todayBoxColor=opts.todayBoxColor||this.boxColor;
@@ -148,22 +149,89 @@
 	inlineCalendar.prototype.draw=function(){
 		this.eventHotspots=[]; //empty out event hotspots
 		var md=this.monthDetail();
-		var totalWidth=(this.spacing+this.boxWidth)*md.length;
 		
-		//clear canvas
-		this.primaryContext.clearRect(this.startX,this.startY,(this.spacing+this.boxWidth)*31,this.boxHeight);
+		var startX=this.startX;
+		var startY=this.startY;
+		var spacing=this.spacing;
+		var boxWidth=this.boxWidth;
+		var boxHeight=this.boxHeight;
+		var cornerRadius=this.cornerRadius;
+		var totalWidth=(spacing+boxWidth)*md.length;
+		
+		if(this.showMonthName){
+			//clear canvas
+			this.primaryContext.clearRect(startX,startY,(spacing+boxWidth)*31,boxHeight+21);
+			
+			if(this.monthNameOnTop){
+				mnstY=startY;
+				startY=startY+20;
+			}else{
+				mnstY=startY+boxHeight+4;
+			}
+			
+			var mnstX=startX;
+			switch(this.monthNameAlign){
+				case "center":
+					mnstX=((totalWidth+spacing)/2)-45;
+				break;
+				case "right":
+					mnstX=(totalWidth+spacing)-90;
+				break;
+			}
+			
+			this.drawMonthName(mnstX,mnstY,90,17,cornerRadius,this.months[this.date.getMonth()]+" "+this.date.getFullYear());
+			
+		}else{
+			//clear canvas
+			this.primaryContext.clearRect(startX,startY,(spacing+boxWidth)*31,boxHeight);
+		}
+		
+		
 		
 		if(this.connectorLine){
-			this.drawConnectorLine(this.startX,this.startY+(this.boxHeight/2),totalWidth);
+			this.drawConnectorLine(startX,startY+(boxHeight/2),totalWidth);
 		}
 		for(var i=0;i<md.length;i++){
-			this.drawMonthBox(this.startX+(i*(this.spacing+this.boxWidth)),
-				this.startY,
-				this.boxWidth,
-				this.boxHeight,this.cornerRadius,
+			this.drawMonthBox(startX+(i*(spacing+boxWidth)),
+				startY,
+				boxWidth,
+				boxHeight,cornerRadius,
 				md[i]
 				);
 		}
+	};
+	inlineCalendar.prototype.drawMonthName=function(x,y,width,height,radius,text){
+		var ctx=this.primaryContext;
+		ctx.save();
+		
+		ctx.fillStyle=this.boxColor;
+		ctx.beginPath();  
+		ctx.moveTo(x,y+radius);  
+		ctx.lineTo(x,y+height-radius);  
+		ctx.quadraticCurveTo(x,y+height,x+radius,y+height);  
+		ctx.lineTo(x+width-radius,y+height);  
+		ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);  
+		ctx.lineTo(x+width,y+radius);  
+		ctx.quadraticCurveTo(x+width,y,x+width-radius,y);  
+		ctx.lineTo(x+radius,y);  
+		ctx.quadraticCurveTo(x,y,x,y+radius);  
+		ctx.fill();
+		
+		if(this.textShadow){
+			ctx.shadowOffsetX = this.textShadowOffsetX;  
+			ctx.shadowOffsetY = this.textShadowOffsetY;  
+			ctx.shadowBlur = this.textShadowBlur;  
+			ctx.shadowColor = this.textShadowColor;
+		}
+		
+
+		ctx.font=this.boxFont;
+		ctx.textAlign=this.boxTextAlign;
+		ctx.fillStyle = this.textColor;
+		  
+		ctx.fillText(text, x+(width/2), y+12,width);
+		
+		ctx.restore();
 	};
 	inlineCalendar.prototype.drawMonthBox=function(x,y,width,height,radius,day){
 		var ctx=this.primaryContext;
