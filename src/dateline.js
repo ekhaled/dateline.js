@@ -300,7 +300,7 @@
 		
 		var tfl=notToday?this.textColor:this.todayTextColor;
 		tfl=hasEvent?this.eventedTextColor:tfl;
-		ctx.fillStyle = tfl
+		ctx.fillStyle = tfl;
 		  
 		ctx.fillText(day.shortname, x+(width/2), y+12,width);
 		ctx.fillText(day.num, x+(width/2), y+(height-4),width);
