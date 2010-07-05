@@ -367,11 +367,22 @@
 	if(typeof window.jQuery !== "undefined"){
 		jQuery.fn.inlineCalendar=function(opts){
 			var cn=this[0];
-			var ic=new inlineCalendar;
-			var options=opts||{};
-			options.canvas=cn;
-			ic.init(opts);
+			if(typeof opts == "object"){
+				var ic=new inlineCalendar;
+				var options=opts||{};
+				options.canvas=cn;
+				ic.init(opts);
+				//save the instance in the expando
+				//so we can use it later
+				$(cn).data("inlineCalendar",ic);
+			}else if(typeof opts == "string"){
+				var ic=$(cn).data("inlineCalendar");
+				if(opts in ic){
+					ic[opts].apply(ic);
+				}
+			}
 		};
+		
 	}
 	
 })();
