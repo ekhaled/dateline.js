@@ -360,4 +360,14 @@
 	};
 	//END EVENTS
 	
+	if(typeof window.jQuery !== "undefined"){
+		jQuery.fn.inlineCalendar=function(opts){
+			var cn=this[0];
+			var ic=new inlineCalendar;
+			var options=opts||{};
+			options.canvas=cn;
+			ic.init(opts);
+		};
+	}
+	
 })();
