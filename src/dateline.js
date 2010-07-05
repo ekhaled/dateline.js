@@ -148,7 +148,7 @@
 		var totalWidth=(this.spacing+this.boxWidth)*md.length;
 		
 		//clear canvas
-		this.primaryContext.clearRect(0,0,950,200);
+		this.primaryContext.clearRect(this.startX,this.startY,(this.spacing+this.boxWidth)*31,this.boxHeight);
 		
 		if(this.connectorLine){
 			this.drawConnectorLine(this.startX,this.startY+(this.boxHeight/2),totalWidth);
