@@ -132,15 +132,19 @@
 	};	
 	inlineCalendar.prototype.nextMonth=function(){
 		this.date.setMonth(this.date.getMonth() + 1);
+		this.draw();
 	};
 	inlineCalendar.prototype.prevMonth=function(){
 		this.date.setMonth(this.date.getMonth() - 1);
+		this.draw();
 	};
 	inlineCalendar.prototype.nextYear=function(){
 		this.date.setYear(this.date.getFullYear() + 1);
+		this.draw();
 	};
 	inlineCalendar.prototype.prevYear=function(){
 		this.date.setYear(this.date.getFullYear() - 1);
+		this.draw();
 	};
 	//-----------END DATE CALCs
 	
