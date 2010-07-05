@@ -21,8 +21,10 @@
 			border:1px solid #ccc;
 		}
 	</style>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
         <script type="text/javascript" src="../src/dateline.js"></script>
 	<script type="text/javascript">
+			/*
 			var ic=new inlineCalendar;
 			
             window.onload=function(){	
@@ -40,6 +42,21 @@
 					}
 				});
 			};
+			//*/
+			$(function(){
+				$("#canvas").inlineCalendar({
+					todayTextColor:"rgb(0,255,0)",
+					eventedBoxColor:"rgba(0,0,0,0.5)",
+					eventedBoxSeparatorColor:"rgba(0,0,255,1)",
+					eventedTextColor:"rgba(0,0,255,1)",
+					events:{"2010-07-06":"Description","2010-07-08":"Description 2"},
+					monthNameOnTop:true,
+					monthNameAlign:"center",
+					callBack:function(event){
+						console.log(event);
+					}
+				});
+			});
 	</script>
 	    
     </head>
