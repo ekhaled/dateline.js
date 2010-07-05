@@ -69,7 +69,7 @@
 		
 		
 		
-		this.drawCalendar();
+		this.draw();
 		
 		var _this=this;
 		this.canvas.onclick=null;
@@ -142,7 +142,7 @@
 	
 	
 	//-----------DRAWINGS
-	inlineCalendar.prototype.drawCalendar=function(){
+	inlineCalendar.prototype.draw=function(){
 		this.eventHotspots=[]; //empty out event hotspots
 		var md=this.monthDetail();
 		var totalWidth=(this.spacing+this.boxWidth)*md.length;
