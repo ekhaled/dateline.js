@@ -87,13 +87,9 @@
 		var y=this.date.getFullYear();
 		var m=this.date.getMonth()+1;
 		m=(m<10)?("0"+m):(m);
-		
 		for(var i=0;i<numDays;i++){
-			
 			var d=(i+1);
 			d=(d<10)?("0"+d):(d);
-			
-			
 			res.push({
 				name:this.days[fDay],
 				shortname:this.daysShort[fDay],
