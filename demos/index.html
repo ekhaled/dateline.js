@@ -17,17 +17,30 @@
 			display:block;
 			height:200px;
 			background:transparent;
+			cursor:pointer;
 		}
 	</style>
-        <script type="text/javascript" src="src/dateline.js"></script>
+        <script type="text/javascript" src="../src/dateline.js"></script>
 	<script type="text/javascript">
-            
+            window.onload=function(){
+				var ic=new inlineCalendar;
+				ic.init({
+					canvas:document.getElementById("canvas"),
+					todayTextColor:"rgb(0,255,0)",
+					todayBoxSeparatorColor:"rgb(0,255,0)",
+					events:["2010-07-06","2010-07-08"],
+					callback:function(event){
+						console.log(event.date);
+					}
+				});
+			};
 	</script>
 	    
     </head>
     <body>
         <div id="wrap">
-         <canvas id="canvas" width="950" height="200"></canvas>		
-	</div>
+         	<canvas id="canvas" width="950" height="200"></canvas>		
+		</div>
+		
     </body>
 </html>
