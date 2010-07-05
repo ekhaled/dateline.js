@@ -130,16 +130,16 @@
 		var y=this.date.getFullYear();
 		return (td.getDate()==num && td.getFullYear()==y && td.getMonth()==m);	
 	};	
-	inlineCalendar.prototype.forwardMonth=function(){
+	inlineCalendar.prototype.nextMonth=function(){
 		this.date.setMonth(this.date.getMonth() + 1);
 	};
-	inlineCalendar.prototype.reverseMonth=function(){
+	inlineCalendar.prototype.prevMonth=function(){
 		this.date.setYear(this.date.getFullYear() + 1);
 	};
-	inlineCalendar.prototype.forwardYear=function(){
+	inlineCalendar.prototype.nextYear=function(){
 		this.date.setMonth(this.date.getMonth() - 1);
 	};
-	inlineCalendar.prototype.reverseYear=function(){
+	inlineCalendar.prototype.prevYear=function(){
 		this.date.setYear(this.date.getFullYear() - 1);
 	};
 	//-----------END DATE CALCs
