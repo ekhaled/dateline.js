@@ -28,20 +28,20 @@
 		
 		this.textColor=opts.textColor||"rgba(255,255,255,1)";
 		
-		this.boxSeparator=(typeof opts.boxSeparator != "undefined")?opts.boxSeperator:true;
+		this.boxSeparator=(typeof opts.boxSeparator !== "undefined")?opts.boxSeperator:true;
 		this.boxSeparatorColor=opts.boxSeparatorColor||"rgba(255,255,255,1)";
 		
-		this.connectorLine=(typeof opts.connectorLine !="undefined")?opts.connectorLine:true;
+		this.connectorLine=(typeof opts.connectorLine !== "undefined")?opts.connectorLine:true;
 		this.connectorColor=opts.connectorColor||"rgba(255,255,255,1)";
 		
-		this.textShadow=(typeof opts.textShadow !="undefined")?opts.textShadow:true;
+		this.textShadow=(typeof opts.textShadow !== "undefined")?opts.textShadow:true;
 		this.textShadowOffsetX = opts.textShadowOffsetX||0;
 		this.textShadowOffsetY = opts.textShadowOffsetY||1;
 		this.textShadowBlur = opts.textShadowBlur||0; 
 		this.textShadowColor = opts.textShadowColor||"#5e5e5e";
 		
-		this.showMonthName=(typeof opts.showMonthName !="undefined")?opts.showMonthName:true;
-		this.monthNameOnTop=(typeof opts.monthNameOnTop !="undefined")?opts.monthNameOnTop:true;
+		this.showMonthName=(typeof opts.showMonthName !== "undefined")?opts.showMonthName:true;
+		this.monthNameOnTop=(typeof opts.monthNameOnTop !== "undefined")?opts.monthNameOnTop:true;
 		this.monthNameAlign=opts.monthNameAlign||"left";
 		
 			//Today styles
@@ -324,7 +324,7 @@
 	
 	//EVENTS
 	inlineCalendar.prototype.getCoords=function(e){
-		if(window.jQuery){
+		if(typeof window.jQuery !== "undefined"){
 			var offset=$(this.canvas).offset();
 			return {x:(e.clientX-offset.left),y:(e.clientY-offset.top)};
 		}else{
