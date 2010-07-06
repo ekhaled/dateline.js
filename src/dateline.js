@@ -316,7 +316,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
 	inlineCalendar.prototype.init=function(opts){
 		//options
-		opts=opts||[];
+		opts=opts||{};
 		this.startX=opts.startX||10;
 		this.startY=opts.startY||10;
 		this.spacing=opts.spacing||5;
@@ -359,7 +359,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		this.eventedTextColor=opts.eventedTextColor||this.textColor;	
 			//END style days with events
 		
-		this.events=opts.events||[];
+		this.events=opts.events||{};
 		this.callBack=opts.callBack||opts.callback||function(){};
 		this.date = opts.date||new Date();
 		if(opts.canvas){
