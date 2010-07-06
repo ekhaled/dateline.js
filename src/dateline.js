@@ -387,11 +387,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	if(typeof window.jQuery !== "undefined"){
 		jQuery.fn.inlineCalendar=function(opts,arg){
 			var cn=this[0];
-			if(typeof opts == "object"){
+			if((typeof opts == "object") || (typeof opts == "undefined")){
 				var ic=new inlineCalendar;
 				var options=opts||{};
 				options.canvas=cn;
-				ic.init(opts);
+				ic.init(options);
 				//save the instance in the expando
 				//so we can use it later
 				$(cn).data("inlineCalendar",ic);
