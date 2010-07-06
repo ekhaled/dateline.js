@@ -165,17 +165,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			ctx.save();
 
 			ctx.fillStyle=this.boxColor;
-			ctx.beginPath();  
-			ctx.moveTo(x,y+radius);  
-			ctx.lineTo(x,y+height-radius);  
-			ctx.quadraticCurveTo(x,y+height,x+radius,y+height);  
-			ctx.lineTo(x+width-radius,y+height);  
-			ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);  
-			ctx.lineTo(x+width,y+radius);  
-			ctx.quadraticCurveTo(x+width,y,x+width-radius,y);  
-			ctx.lineTo(x+radius,y);  
-			ctx.quadraticCurveTo(x,y,x,y+radius);
-			ctx.closePath(); 
+			roundedRect(ctx,x,y,height,width,radius);
 			ctx.fill();
 
 			if(this.textShadow){
@@ -184,12 +174,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				ctx.shadowBlur = this.textShadowBlur;  
 				ctx.shadowColor = this.textShadowColor;
 			}
-
-
 			ctx.font=this.boxFont;
 			ctx.textAlign=this.boxTextAlign;
 			ctx.fillStyle = this.textColor;
-
 			ctx.fillText(text, x+(width/2), y+12,width);
 
 			ctx.restore();
@@ -207,17 +194,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			ctx.fillStyle=notToday?this.boxColor:this.todayBoxColor;
 			ctx.fillStyle=hasEvent?this.eventedBoxColor:ctx.fillStyle; 
 
-			ctx.beginPath();  
-			ctx.moveTo(x,y+radius);  
-			ctx.lineTo(x,y+height-radius);  
-			ctx.quadraticCurveTo(x,y+height,x+radius,y+height);  
-			ctx.lineTo(x+width-radius,y+height);  
-			ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);  
-			ctx.lineTo(x+width,y+radius);  
-			ctx.quadraticCurveTo(x+width,y,x+width-radius,y);  
-			ctx.lineTo(x+radius,y);  
-			ctx.quadraticCurveTo(x,y,x,y+radius); 
-			ctx.closePath(); 
+			roundedRect(ctx,x,y,height,width,radius); 
 			ctx.fill();
 			//box seperator
 			if(this.boxSeparator){
@@ -282,6 +259,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			ctx.stroke();
 			ctx.restore();
 		};
+		
+		/*private*/function roundedRect(ctx,x,y,height,width,radius){
+			ctx.beginPath();  
+			ctx.moveTo(x,y+radius);  
+			ctx.lineTo(x,y+height-radius);  
+			ctx.quadraticCurveTo(x,y+height,x+radius,y+height);  
+			ctx.lineTo(x+width-radius,y+height);  
+			ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);  
+			ctx.lineTo(x+width,y+radius);  
+			ctx.quadraticCurveTo(x+width,y,x+width-radius,y);  
+			ctx.lineTo(x+radius,y);  
+			ctx.quadraticCurveTo(x,y,x,y+radius);
+			ctx.closePath();
+		}
 		//-----------END DRAWINGS
 		
 		//-----------EVENTS
