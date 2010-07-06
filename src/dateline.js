@@ -385,7 +385,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	};
 	
 	if(typeof window.jQuery !== "undefined"){
-		jQuery.fn.inlineCalendar=function(opts){
+		jQuery.fn.inlineCalendar=function(opts,arg){
 			var cn=this[0];
 			if(typeof opts == "object"){
 				var ic=new inlineCalendar;
@@ -398,7 +398,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}else if(typeof opts == "string"){
 				var ic=$(cn).data("inlineCalendar");
 				if(opts in ic){
-					ic[opts].apply(ic);
+					if(jQuery.isFunction(ic[opts])){
+						ic[opts].apply(ic,Array.prototype.splice.call(arguments,1));
+					}else{
+						ic[opts]=arg;
+					}	
 				}
 			}
 		};
