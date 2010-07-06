@@ -33,6 +33,296 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	    this.dayNumbers = {"sunday": 0,"monday": 1,"tuesday": 2,"wednesday": 3,"thursday": 4,"friday": 5,"saturday": 6
 	    };
 		this.eventHotspots=[];
+		
+		//-----------DATE CALCs
+		this.monthDetail=function(){
+			var res=[];
+			var numDays=this.daysInMonth(this.date);
+			var fDay=this.firstDayOfMonth(this.date);
+
+			var y=this.date.getFullYear();
+			var m=this.date.getMonth()+1;
+			m=(m<10)?("0"+m):(m);
+			for(var i=0;i<numDays;i++){
+				var d=(i+1);
+				d=(d<10)?("0"+d):(d);
+				res.push({
+					name:this.days[fDay],
+					shortname:this.daysShort[fDay],
+					num:(((i+1)<10)?("0"+(i+1)):(i+1)),
+					date:y+"-"+m+"-"+d
+				});
+				fDay = (fDay == 6) ? 0: ++fDay;
+			}
+			return res;
+		};
+		this.daysInMonth=function(date){
+			var month = date.getMonth();
+	        if (month == 1) {
+				var isLeap=(parseInt(date.getFullYear(),10)%4==0);
+	            if (isLeap){
+					return 29;
+				}else{
+					return 28;
+				}
+	        }else{
+				return this.monthLengths[month];
+			}
+		};
+		this.firstDayOfMonth=function(date){
+			var _temp=date.getDate();
+			date.setDate(1);
+			var _temp2=date.getDay();
+			date.setDate(_temp);
+			return _temp2;
+		};
+		this.isToday=function(num){
+			td=new Date();
+			var m=this.date.getMonth();
+			var y=this.date.getFullYear();
+			return (td.getDate()==num && td.getFullYear()==y && td.getMonth()==m);	
+		};		
+		this.nextMonth=function(){
+			this.date.setMonth(this.date.getMonth() + 1);
+			this.draw();
+		};
+		this.prevMonth=function(){
+			this.date.setMonth(this.date.getMonth() - 1);
+			this.draw();
+		};
+		this.nextYear=function(){
+			this.date.setYear(this.date.getFullYear() + 1);
+			this.draw();
+		};
+		this.prevYear=function(){
+			this.date.setYear(this.date.getFullYear() - 1);
+			this.draw();
+		};
+		this.now=function(){
+			td=new Date();
+			this.date=td;
+			this.draw();
+		};
+		//-----------END DATE CALCs
+		
+		//-----------DRAWINGS
+		this.draw=function(){
+			this.eventHotspots=[]; //empty out event hotspots
+			var md=this.monthDetail();
+
+			var startX=this.startX;
+			var startY=this.startY;
+			var spacing=this.spacing;
+			var boxWidth=this.boxWidth;
+			var boxHeight=this.boxHeight;
+			var cornerRadius=this.cornerRadius;
+			var totalWidth=(spacing+boxWidth)*md.length;
+
+			if(this.showMonthName){
+				//clear canvas
+				this.primaryContext.clearRect(startX,startY,(spacing+boxWidth)*31,boxHeight+21);
+
+				if(this.monthNameOnTop){
+					mnstY=startY;
+					startY=startY+20;
+				}else{
+					mnstY=startY+boxHeight+4;
+				}
+
+				var mnstX=startX;
+				switch(this.monthNameAlign){
+					case "center":
+						mnstX=((totalWidth+spacing)/2)-45;
+					break;
+					case "right":
+						mnstX=(totalWidth+spacing)-90;
+					break;
+				}
+
+				this.drawMonthName(mnstX,mnstY,90,17,cornerRadius,this.months[this.date.getMonth()]+" "+this.date.getFullYear());
+
+			}else{
+				//clear canvas
+				this.primaryContext.clearRect(startX,startY,(spacing+boxWidth)*31,boxHeight);
+			}
+
+
+
+			if(this.connectorLine){
+				this.drawConnectorLine(startX,startY+(boxHeight/2),totalWidth);
+			}
+			for(var i=0;i<md.length;i++){
+				this.drawMonthBox(startX+(i*(spacing+boxWidth)),
+					startY,
+					boxWidth,
+					boxHeight,cornerRadius,
+					md[i]
+					);
+			}
+		};
+		this.drawMonthName=function(x,y,width,height,radius,text){
+			var ctx=this.primaryContext;
+			ctx.save();
+
+			ctx.fillStyle=this.boxColor;
+			ctx.beginPath();  
+			ctx.moveTo(x,y+radius);  
+			ctx.lineTo(x,y+height-radius);  
+			ctx.quadraticCurveTo(x,y+height,x+radius,y+height);  
+			ctx.lineTo(x+width-radius,y+height);  
+			ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);  
+			ctx.lineTo(x+width,y+radius);  
+			ctx.quadraticCurveTo(x+width,y,x+width-radius,y);  
+			ctx.lineTo(x+radius,y);  
+			ctx.quadraticCurveTo(x,y,x,y+radius);
+			ctx.closePath(); 
+			ctx.fill();
+
+			if(this.textShadow){
+				ctx.shadowOffsetX = this.textShadowOffsetX;  
+				ctx.shadowOffsetY = this.textShadowOffsetY;  
+				ctx.shadowBlur = this.textShadowBlur;  
+				ctx.shadowColor = this.textShadowColor;
+			}
+
+
+			ctx.font=this.boxFont;
+			ctx.textAlign=this.boxTextAlign;
+			ctx.fillStyle = this.textColor;
+
+			ctx.fillText(text, x+(width/2), y+12,width);
+
+			ctx.restore();
+		};
+		this.drawMonthBox=function(x,y,width,height,radius,day){
+			var ctx=this.primaryContext;
+
+			var notToday=!this.isToday(day.num);
+			var hasEvent=false;
+			if(day.date in this.events){
+				hasEvent=true;
+				day.events=this.events[day.date];
+			}
+			//box
+			ctx.fillStyle=notToday?this.boxColor:this.todayBoxColor;
+			ctx.fillStyle=hasEvent?this.eventedBoxColor:ctx.fillStyle; 
+
+			ctx.beginPath();  
+			ctx.moveTo(x,y+radius);  
+			ctx.lineTo(x,y+height-radius);  
+			ctx.quadraticCurveTo(x,y+height,x+radius,y+height);  
+			ctx.lineTo(x+width-radius,y+height);  
+			ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);  
+			ctx.lineTo(x+width,y+radius);  
+			ctx.quadraticCurveTo(x+width,y,x+width-radius,y);  
+			ctx.lineTo(x+radius,y);  
+			ctx.quadraticCurveTo(x,y,x,y+radius); 
+			ctx.closePath(); 
+			ctx.fill();
+			//box seperator
+			if(this.boxSeparator){
+				var bsc=notToday?this.boxSeparatorColor:this.todayBoxSeparatorColor;
+				bsc=hasEvent?this.eventedBoxSeparatorColor:bsc;
+				ctx.strokeStyle=ctx.fillStyle=bsc;
+				ctx.beginPath();  
+				ctx.moveTo(x,y+((height/2)-0)); 
+				ctx.lineTo(x+((width/2)-2),y+((height/2)-0));
+				ctx.lineTo(x+(width/2),y+((height/2)-2));
+				ctx.lineTo(x+((width/2)+2),y+((height/2)-0));  
+				ctx.lineTo(x+width,y+((height/2)-0));
+
+				ctx.lineTo(x+width,y+((height/2)+0));
+				ctx.lineTo(x+((width/2)+2),y+((height/2)+0));
+				ctx.lineTo(x+(width/2),y+((height/2)+2));  
+				ctx.lineTo(x+((width/2)-2),y+((height/2)+0));
+				ctx.lineTo(x,y+((height/2)+0));
+				ctx.lineTo(x,y+((height/2)-0));
+				ctx.closePath();
+				ctx.stroke();
+				ctx.fill();
+
+				if(!notToday){
+					ctx.fillRect(x+((width/2)-3),y+((height/2)-3),6,6);
+				}
+
+			}
+			//text
+			ctx.save();
+			if(this.textShadow){
+				ctx.shadowOffsetX = this.textShadowOffsetX;  
+				ctx.shadowOffsetY = this.textShadowOffsetY;  
+				ctx.shadowBlur = this.textShadowBlur;  
+				ctx.shadowColor = this.textShadowColor;
+			}
+
+			var fnt=notToday?this.boxFont:this.todayBoxFont;
+			fnt=hasEvent?this.eventedBoxFont:fnt;
+			ctx.font=fnt;
+
+			ctx.textAlign=this.boxTextAlign;
+
+			var tfl=notToday?this.textColor:this.todayTextColor;
+			tfl=hasEvent?this.eventedTextColor:tfl;
+			ctx.fillStyle = tfl;
+
+			ctx.fillText(day.shortname, x+(width/2), y+12,width);
+			ctx.fillText(day.num, x+(width/2), y+(height-4),width);
+			ctx.restore();
+
+			//add this day to hotspots stack
+			this.eventHotspots.push({x:x,y:y,width:width,height:height,day:day});
+
+		};
+		this.drawConnectorLine=function(x,y,length){
+			var ctx=this.primaryContext;
+			ctx.save();
+			ctx.strokeStyle=this.connectorColor;
+			ctx.moveTo(x,y);
+			ctx.lineTo(length,y);
+			ctx.stroke();
+			ctx.restore();
+		};
+		//-----------END DRAWINGS
+		
+		//-----------EVENTS
+		this.getCoords=function(e){
+			if(typeof window.jQuery !== "undefined"){
+				var offset=$(this.canvas).offset();
+				return {x:(e.clientX-offset.left),y:(e.clientY-offset.top)};
+			}else{
+				var elem = this.canvas,
+				box=elem.getBoundingClientRect(),
+				doc = elem.ownerDocument,
+		        body = doc.body,
+		        docElem = doc.documentElement,
+
+				clientTop = docElem.clientTop || body.clientTop || 0,
+				clientLeft = docElem.clientLeft || body.clientLeft || 0,
+
+				offsetTop = box.top + (this.canvas.pageYOffset || body.scrollTop) - clientTop,
+				offsetLeft = box.left + (this.canvas.pageXOffset || body.scrollLeft) - clientLeft;
+
+				return {x:(e.clientX-offsetLeft),y:(e.clientY-offsetTop)};
+			}
+
+		};
+		this.handleClicks=function(e){
+			var coords=this.getCoords(e);
+			rects=this.eventHotspots;
+			for ( var i = 0; i < rects.length; i++ ) {
+			    var rect = rects[i];
+			    if ( coords.x >= rect.x && coords.x <= rect.x + rect.width
+			    &&   coords.y >= rect.y && coords.y <= rect.y + rect.height ) {
+			        this.triggerCallback(rect.day);
+			    }
+			}
+		};
+		this.triggerCallback=function(day){
+			this.callBack.call(this,day);
+		};
+		//-----------END EVENTS
+		
+		
 	};
 	
 	inlineCalendar.prototype.init=function(opts){
@@ -104,294 +394,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			_this.handleClicks(event);
 		};
 	};
-	
-	//-----------DATE CALCs
-	inlineCalendar.prototype.monthDetail=function(){
-		var res=[];
-		var numDays=this.daysInMonth(this.date);
-		var fDay=this.firstDayOfMonth(this.date);
-		
-		var y=this.date.getFullYear();
-		var m=this.date.getMonth()+1;
-		m=(m<10)?("0"+m):(m);
-		for(var i=0;i<numDays;i++){
-			var d=(i+1);
-			d=(d<10)?("0"+d):(d);
-			res.push({
-				name:this.days[fDay],
-				shortname:this.daysShort[fDay],
-				num:(((i+1)<10)?("0"+(i+1)):(i+1)),
-				date:y+"-"+m+"-"+d
-			});
-			fDay = (fDay == 6) ? 0: ++fDay;
-		}
-		return res;
-	};
-	inlineCalendar.prototype.daysInMonth=function(date){
-		var month = date.getMonth();
-        if (month == 1) {
-			var isLeap=(parseInt(date.getFullYear(),10)%4==0);
-            if (isLeap){
-				return 29;
-			}else{
-				return 28;
-			}
-        }else{
-			return this.monthLengths[month];
-		}
-	};
-	inlineCalendar.prototype.firstDayOfMonth=function(date){
-		var _temp=date.getDate();
-		date.setDate(1);
-		var _temp2=date.getDay();
-		date.setDate(_temp);
-		return _temp2;
-	};
-	inlineCalendar.prototype.isToday=function(num){
-		td=new Date();
-		var m=this.date.getMonth();
-		var y=this.date.getFullYear();
-		return (td.getDate()==num && td.getFullYear()==y && td.getMonth()==m);	
-	};	
-	inlineCalendar.prototype.nextMonth=function(){
-		this.date.setMonth(this.date.getMonth() + 1);
-		this.draw();
-	};
-	inlineCalendar.prototype.prevMonth=function(){
-		this.date.setMonth(this.date.getMonth() - 1);
-		this.draw();
-	};
-	inlineCalendar.prototype.nextYear=function(){
-		this.date.setYear(this.date.getFullYear() + 1);
-		this.draw();
-	};
-	inlineCalendar.prototype.prevYear=function(){
-		this.date.setYear(this.date.getFullYear() - 1);
-		this.draw();
-	};
-	inlineCalendar.prototype.now=function(){
-		td=new Date();
-		this.date=td;
-		this.draw();
-	};
-	
-	//-----------END DATE CALCs
-	
-	
-	//-----------DRAWINGS
-	inlineCalendar.prototype.draw=function(){
-		this.eventHotspots=[]; //empty out event hotspots
-		var md=this.monthDetail();
-		
-		var startX=this.startX;
-		var startY=this.startY;
-		var spacing=this.spacing;
-		var boxWidth=this.boxWidth;
-		var boxHeight=this.boxHeight;
-		var cornerRadius=this.cornerRadius;
-		var totalWidth=(spacing+boxWidth)*md.length;
-		
-		if(this.showMonthName){
-			//clear canvas
-			this.primaryContext.clearRect(startX,startY,(spacing+boxWidth)*31,boxHeight+21);
-			
-			if(this.monthNameOnTop){
-				mnstY=startY;
-				startY=startY+20;
-			}else{
-				mnstY=startY+boxHeight+4;
-			}
-			
-			var mnstX=startX;
-			switch(this.monthNameAlign){
-				case "center":
-					mnstX=((totalWidth+spacing)/2)-45;
-				break;
-				case "right":
-					mnstX=(totalWidth+spacing)-90;
-				break;
-			}
-			
-			this.drawMonthName(mnstX,mnstY,90,17,cornerRadius,this.months[this.date.getMonth()]+" "+this.date.getFullYear());
-			
-		}else{
-			//clear canvas
-			this.primaryContext.clearRect(startX,startY,(spacing+boxWidth)*31,boxHeight);
-		}
-		
-		
-		
-		if(this.connectorLine){
-			this.drawConnectorLine(startX,startY+(boxHeight/2),totalWidth);
-		}
-		for(var i=0;i<md.length;i++){
-			this.drawMonthBox(startX+(i*(spacing+boxWidth)),
-				startY,
-				boxWidth,
-				boxHeight,cornerRadius,
-				md[i]
-				);
-		}
-	};
-	inlineCalendar.prototype.drawMonthName=function(x,y,width,height,radius,text){
-		var ctx=this.primaryContext;
-		ctx.save();
-		
-		ctx.fillStyle=this.boxColor;
-		ctx.beginPath();  
-		ctx.moveTo(x,y+radius);  
-		ctx.lineTo(x,y+height-radius);  
-		ctx.quadraticCurveTo(x,y+height,x+radius,y+height);  
-		ctx.lineTo(x+width-radius,y+height);  
-		ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);  
-		ctx.lineTo(x+width,y+radius);  
-		ctx.quadraticCurveTo(x+width,y,x+width-radius,y);  
-		ctx.lineTo(x+radius,y);  
-		ctx.quadraticCurveTo(x,y,x,y+radius);  
-		ctx.fill();
-		
-		if(this.textShadow){
-			ctx.shadowOffsetX = this.textShadowOffsetX;  
-			ctx.shadowOffsetY = this.textShadowOffsetY;  
-			ctx.shadowBlur = this.textShadowBlur;  
-			ctx.shadowColor = this.textShadowColor;
-		}
-		
-
-		ctx.font=this.boxFont;
-		ctx.textAlign=this.boxTextAlign;
-		ctx.fillStyle = this.textColor;
-		  
-		ctx.fillText(text, x+(width/2), y+12,width);
-		
-		ctx.restore();
-	};
-	inlineCalendar.prototype.drawMonthBox=function(x,y,width,height,radius,day){
-		var ctx=this.primaryContext;
-		
-		var notToday=!this.isToday(day.num);
-		var hasEvent=false;
-		if(day.date in this.events){
-			hasEvent=true;
-		}
-		//box
-		ctx.fillStyle=notToday?this.boxColor:this.todayBoxColor;
-		ctx.fillStyle=hasEvent?this.eventedBoxColor:ctx.fillStyle; 
-		 
-		ctx.beginPath();  
-		ctx.moveTo(x,y+radius);  
-		ctx.lineTo(x,y+height-radius);  
-		ctx.quadraticCurveTo(x,y+height,x+radius,y+height);  
-		ctx.lineTo(x+width-radius,y+height);  
-		ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);  
-		ctx.lineTo(x+width,y+radius);  
-		ctx.quadraticCurveTo(x+width,y,x+width-radius,y);  
-		ctx.lineTo(x+radius,y);  
-		ctx.quadraticCurveTo(x,y,x,y+radius);  
-		ctx.fill();
-		//box seperator
-		if(this.boxSeparator){
-			var bsc=notToday?this.boxSeparatorColor:this.todayBoxSeparatorColor;
-			bsc=hasEvent?this.eventedBoxSeparatorColor:bsc;
-			ctx.strokeStyle=ctx.fillStyle=bsc;
-			ctx.beginPath();  
-			ctx.moveTo(x,y+((height/2)-0)); 
-			ctx.lineTo(x+((width/2)-2),y+((height/2)-0));
-			ctx.lineTo(x+(width/2),y+((height/2)-2));
-			ctx.lineTo(x+((width/2)+2),y+((height/2)-0));  
-			ctx.lineTo(x+width,y+((height/2)-0));
-
-			ctx.lineTo(x+width,y+((height/2)+0));
-			ctx.lineTo(x+((width/2)+2),y+((height/2)+0));
-			ctx.lineTo(x+(width/2),y+((height/2)+2));  
-			ctx.lineTo(x+((width/2)-2),y+((height/2)+0));
-			ctx.lineTo(x,y+((height/2)+0));
-			ctx.lineTo(x,y+((height/2)-0));
-
-			ctx.stroke();
-			ctx.fill();
-			
-			if(!notToday){
-				ctx.fillRect(x+((width/2)-3),y+((height/2)-3),6,6);
-			}
-			
-		}
-		//text
-		ctx.save();
-		if(this.textShadow){
-			ctx.shadowOffsetX = this.textShadowOffsetX;  
-			ctx.shadowOffsetY = this.textShadowOffsetY;  
-			ctx.shadowBlur = this.textShadowBlur;  
-			ctx.shadowColor = this.textShadowColor;
-		}
-		
-		var fnt=notToday?this.boxFont:this.todayBoxFont;
-		fnt=hasEvent?this.eventedBoxFont:fnt;
-		ctx.font=fnt;
-		
-		ctx.textAlign=this.boxTextAlign;
-		
-		var tfl=notToday?this.textColor:this.todayTextColor;
-		tfl=hasEvent?this.eventedTextColor:tfl;
-		ctx.fillStyle = tfl;
-		  
-		ctx.fillText(day.shortname, x+(width/2), y+12,width);
-		ctx.fillText(day.num, x+(width/2), y+(height-4),width);
-		ctx.restore();
-		
-		//add this day to hotspots stack
-		this.eventHotspots.push({x:x,y:y,width:width,height:height,day:day});
-		
-	};
-	inlineCalendar.prototype.drawConnectorLine=function(x,y,length){
-		var ctx=this.primaryContext;
-		ctx.save();
-		ctx.strokeStyle=this.connectorColor;
-		ctx.moveTo(x,y);
-		ctx.lineTo(length,y);
-		ctx.stroke();
-		ctx.restore();
-	};
-	//-----------END DRAWINGS
-	
-	
-	//EVENTS
-	inlineCalendar.prototype.getCoords=function(e){
-		if(typeof window.jQuery !== "undefined"){
-			var offset=$(this.canvas).offset();
-			return {x:(e.clientX-offset.left),y:(e.clientY-offset.top)};
-		}else{
-			var elem = this.canvas,
-			box=elem.getBoundingClientRect(),
-			doc = elem.ownerDocument,
-	        body = doc.body,
-	        docElem = doc.documentElement,
-
-			clientTop = docElem.clientTop || body.clientTop || 0,
-			clientLeft = docElem.clientLeft || body.clientLeft || 0,
-
-			offsetTop = box.top + (this.canvas.pageYOffset || body.scrollTop) - clientTop,
-			offsetLeft = box.left + (this.canvas.pageXOffset || body.scrollLeft) - clientLeft;
-
-			return {x:(e.clientX-offsetLeft),y:(e.clientY-offsetTop)};
-		}
-		
-	};
-	inlineCalendar.prototype.handleClicks=function(e){
-		var coords=this.getCoords(e);
-		rects=this.eventHotspots;
-		for ( var i = 0; i < rects.length; i++ ) {
-		    var rect = rects[i];
-		    if ( coords.x >= rect.x && coords.x <= rect.x + rect.width
-		    &&   coords.y >= rect.y && coords.y <= rect.y + rect.height ) {
-		        this.triggerCallback(rect.day);
-		    }
-		}
-	};
-	inlineCalendar.prototype.triggerCallback=function(day){
-		this.callBack.call(this,day);
-	};
-	//END EVENTS
 	
 	if(typeof window.jQuery !== "undefined"){
 		jQuery.fn.inlineCalendar=function(opts){
