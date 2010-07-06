@@ -22,9 +22,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 **/
 (function(){
-	
-	//inlineCalendar.prototype.=function(){}
-	
+		
 	var inlineCalendar=window.inlineCalendar=function(opts){
 		this.monthLengths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 	    this.days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
@@ -183,7 +181,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		};
 		this.drawMonthBox=function(x,y,width,height,radius,day){
 			var ctx=this.primaryContext;
-
+			
 			var notToday=!this.isToday(day.num);
 			var hasEvent=false;
 			if(day.date in this.events){
