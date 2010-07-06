@@ -146,6 +146,12 @@
 		this.date.setYear(this.date.getFullYear() - 1);
 		this.draw();
 	};
+	inlineCalendar.prototype.now=function(){
+		td=new Date();
+		this.date=td;
+		this.draw();
+	};
+	
 	//-----------END DATE CALCs
 	
 	
