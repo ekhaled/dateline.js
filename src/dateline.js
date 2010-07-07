@@ -117,15 +117,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var cornerRadius=this.cornerRadius;
 			var totalWidth=(spacing+boxWidth)*md.length;
 			
+			
+			var _startX=startX; //remember this for clearRect in next step
 			if(align=="center" || align=="right"){
 				var longestWidth=((spacing+boxWidth)*31)+spacing;
 				switch (align){
 					case "center":
-						var _startX=startX; //remember this for clearRect in next step
 						startX=startX+(longestWidth-totalWidth)/2;
 					break;
 					case "right":
-						var _startX=startX; //remember this for clearRect in next step
 						startX=startX+(longestWidth-totalWidth);
 					break;
 				}				
