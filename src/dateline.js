@@ -302,12 +302,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			    var rect = rects[i];
 			    if ( coords.x >= rect.x && coords.x <= rect.x + rect.width
 			    &&   coords.y >= rect.y && coords.y <= rect.y + rect.height ) {
-			        this.triggerCallback(rect.day);
+			        this.triggerCallback(rect);
 			    }
 			}
 		};
-		this.triggerCallback=function(day){
-			this.callBack.call(this,day);
+		this.triggerCallback=function(rect){
+			this.callBack.call(this,rect);
 		};
 		//-----------END EVENTS
 		
@@ -372,7 +372,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		}else{
 			throw new Error("Canvas does not support 2d context");
 		}
-		
 		
 		
 		this.draw();
