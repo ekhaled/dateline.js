@@ -107,7 +107,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		this.draw=function(){
 			this.eventHotspots=[]; //empty out event hotspots
 			var md=this.monthDetail();
-
+			
+			var align=this.align;
 			var startX=this.startX;
 			var startY=this.startY;
 			var spacing=this.spacing;
@@ -115,10 +116,26 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var boxHeight=this.boxHeight;
 			var cornerRadius=this.cornerRadius;
 			var totalWidth=(spacing+boxWidth)*md.length;
+			
+			if(align=="center" || align=="right"){
+				var longestWidth=((spacing+boxWidth)*31)+spacing;
+				switch (align){
+					case "center":
+						var _startX=startX; //remember this for clearRect in next step
+						startX=startX+(longestWidth-totalWidth)/2;
+					break;
+					case "right":
+						var _startX=startX; //remember this for clearRect in next step
+						startX=startX+(longestWidth-totalWidth);
+					break;
+				}				
+			}
+			
+			
 
 			if(this.showMonthName){
 				//clear canvas
-				this.primaryContext.clearRect(startX,startY,(spacing+boxWidth)*31,boxHeight+21);
+				this.primaryContext.clearRect(_startX,startY,(spacing+boxWidth)*31,boxHeight+21);
 
 				if(this.monthNameOnTop){
 					mnstY=startY;
@@ -141,7 +158,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 			}else{
 				//clear canvas
-				this.primaryContext.clearRect(startX,startY,(spacing+boxWidth)*31,boxHeight);
+				this.primaryContext.clearRect(_startX,startY,(spacing+boxWidth)*31,boxHeight);
 			}
 
 
@@ -317,6 +334,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	inlineCalendar.prototype.init=function(opts){
 		//options
 		opts=opts||{};
+		this.align=opts.align||"left";
 		this.startX=opts.startX||10;
 		this.startY=opts.startY||10;
 		this.spacing=opts.spacing||5;
