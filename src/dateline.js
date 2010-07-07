@@ -400,7 +400,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 					if(jQuery.isFunction(ic[opts])){
 						ic[opts].apply(ic,Array.prototype.splice.call(arguments,1));
 					}else{
-						ic[opts]=arg;
+						if(arg){
+							ic[opts]=arg;
+						}else{
+							return ic[opts];
+						}
 					}	
 				}
 			}
