@@ -347,7 +347,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		this.monthNameAlign=opts.monthNameAlign||"left";
 		
 			//Today styles
-		this.todayBoxColor=opts.todayBoxColor||this.boxColor;
+		this.todayBoxColor=opts.todayBoxColor||"rgba(0,0,0,1)";
 		this.todayBoxSeparatorColor=opts.todayBoxSeparatorColor||this.boxSeparatorColor;
 		this.todayBoxFont=opts.todayBoxFont||this.boxFont;
 		this.todayTextColor=opts.todayTextColor||this.textColor;
