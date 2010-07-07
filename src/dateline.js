@@ -82,23 +82,33 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		};		
 		this.nextMonth=function(){
 			this.date.setMonth(this.date.getMonth() + 1);
+			this.callBacks["onNavigate"].call(this,this.date);
+			this.callBacks["onNextMonth"].call(this,this.date);
 			this.draw();
 		};
 		this.prevMonth=function(){
 			this.date.setMonth(this.date.getMonth() - 1);
+			this.callBacks["onNavigate"].call(this,this.date);
+			this.callBacks["onPrevMonth"].call(this,this.date);
 			this.draw();
 		};
 		this.nextYear=function(){
 			this.date.setYear(this.date.getFullYear() + 1);
+			this.callBacks["onNavigate"].call(this,this.date);
+			this.callBacks["onNextYear"].call(this,this.date);
 			this.draw();
 		};
 		this.prevYear=function(){
 			this.date.setYear(this.date.getFullYear() - 1);
+			this.callBacks["onNavigate"].call(this,this.date);
+			this.callBacks["onPrevYear"].call(this,this.date);
 			this.draw();
 		};
 		this.now=function(){
 			td=new Date();
 			this.date=td;
+			this.callBacks["onNavigate"].call(this,this.date);
+			this.callBacks["onNow"].call(this,this.date);
 			this.draw();
 		};
 		//-----------END DATE CALCs
@@ -319,12 +329,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			    var rect = rects[i];
 			    if ( coords.x >= rect.x && coords.x <= rect.x + rect.width
 			    &&   coords.y >= rect.y && coords.y <= rect.y + rect.height ) {
-			        this.triggerCallback(rect);
+			        this.callBacks["onEvent"].call(this,rect);
 			    }
 			}
-		};
-		this.triggerCallback=function(rect){
-			this.callBack.call(this,rect);
 		};
 		//-----------END EVENTS
 		
@@ -378,7 +385,24 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			//END style days with events
 		
 		this.events=opts.events||{};
-		this.callBack=opts.callBack||opts.callback||function(){};
+		
+		//Callbacks
+		this.callBacks={
+			onEvent:function(){},
+			onNavigate:function(){},
+			onNextMonth:function(){},
+			onPrevMonth:function(){},
+			onNextYear:function(){},
+			onPrevYear:function(){},
+			onNow:function(){}
+		};
+		var _opts_call_backs=opts.callbacks || opts.callBacks || {};
+		for(var handler in _opts_call_backs){
+			if(handler in this.callBacks){
+				this.callBacks[handler]=_opts_call_backs[handler];
+			}
+		}
+		
 		this.date = opts.date||new Date();
 		if(opts.canvas){
 			this.canvas=opts.canvas;
