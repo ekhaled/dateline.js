@@ -31,6 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	    this.dayNumbers = {"sunday": 0,"monday": 1,"tuesday": 2,"wednesday": 3,"thursday": 4,"friday": 5,"saturday": 6
 	    };
 		this.eventHotspots=[];
+		this.navHotspots=[];
 		
 		//-----------DATE CALCs
 		this.monthDetail=function(){
@@ -115,7 +116,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		
 		//-----------DRAWINGS
 		this.draw=function(){
-			this.eventHotspots=[]; //empty out event hotspots
+			this.eventHotspots=[];this.navHotspots=[]; //empty out event hotspots
 			var md=this.monthDetail();
 			
 			var align=this.align;
@@ -213,6 +214,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		    ctx.closePath();
 		    ctx.fill();
 			ctx.restore();
+			this.navHotspots.push({x:startX,y:startY,width:27,height:17,type:"prevYear"});
 			//*/
 			startX+=27;
 			
@@ -228,6 +230,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		    ctx.closePath();
 		    ctx.fill();
 			ctx.restore();
+			this.navHotspots.push({x:startX,y:startY,width:20,height:17,type:"prevMonth"});
 			//*/
 			startX+=19.99;
 			//*now
@@ -237,6 +240,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			ctx.fillStyle = "#FFFFFF";
 			ctx.fillRect(5+startX, 2+startY, 13, 13);
 			ctx.restore();
+			this.navHotspots.push({x:startX,y:startY,width:23,height:17,type:"now"});
 			//*/
 			startX+=22.9;//82.37;
 			//*next month
@@ -251,6 +255,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		    ctx.closePath();
 		    ctx.fill();
 			ctx.restore();
+			this.navHotspots.push({x:startX,y:startY,width:20,height:17,type:"nextMonth"});
 			//*/
 			startX+=19.92;//102.29;
 			//*next Year
@@ -271,8 +276,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		    ctx.lineTo(2.99+startX, 15.01+startY);
 		    ctx.closePath();
 		    ctx.fill();
-			//*/
 			ctx.restore();
+			this.navHotspots.push({x:startX,y:startY,width:27,height:17,type:"nextYear"});
+			//*/
 		};
 		this.drawMonthName=function(x,y,width,height,radius,text){
 			var ctx=this.primaryContext;
@@ -436,6 +442,17 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			    if ( coords.x >= rect.x && coords.x <= rect.x + rect.width
 			    &&   coords.y >= rect.y && coords.y <= rect.y + rect.height ) {
 			        this.callBacks["onEvent"].call(this,rect);
+					return;
+			    }
+			}
+			
+			rects=this.navHotspots;
+			for ( var i = 0; i < rects.length; i++ ) {
+			    var rect = rects[i];
+			    if ( coords.x >= rect.x && coords.x <= rect.x + rect.width
+			    &&   coords.y >= rect.y && coords.y <= rect.y + rect.height ) {
+					this[rect["type"]].call(this);
+					return;
 			    }
 			}
 		};
