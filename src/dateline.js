@@ -568,7 +568,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 					if(jQuery.isFunction(ic[opts])){
 						ic[opts].apply(ic,Array.prototype.splice.call(arguments,1));
 					}else{
-						if(arg){
+						if(typeof arg !== "undefined"){
 							ic[opts]=arg;
 						}else{
 							return ic[opts];
