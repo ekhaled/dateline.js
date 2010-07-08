@@ -285,17 +285,34 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			ctx.restore();
 		};
 		
-		/*private*/function roundedRect(ctx,x,y,height,width,radius){
+		/*private*/function roundedRect(ctx,x,y,height,width,radius,corners){
+			corners=corners||[1,1,1,1];
 			ctx.beginPath();  
-			ctx.moveTo(x,y+radius);  
-			ctx.lineTo(x,y+height-radius);  
-			ctx.quadraticCurveTo(x,y+height,x+radius,y+height);  
-			ctx.lineTo(x+width-radius,y+height);  
-			ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);  
-			ctx.lineTo(x+width,y+radius);  
-			ctx.quadraticCurveTo(x+width,y,x+width-radius,y);  
-			ctx.lineTo(x+radius,y);  
-			ctx.quadraticCurveTo(x,y,x,y+radius);
+			ctx.moveTo(x,y+radius); 
+			if(corners[3]!==1){
+				ctx.lineTo(x,y+height);
+			}else{
+				ctx.lineTo(x,y+height-radius);  
+				ctx.quadraticCurveTo(x,y+height,x+radius,y+height);
+			}  
+			if(corners[2]!==1){
+				ctx.lineTo(x+width,y+height);
+			}else{
+				ctx.lineTo(x+width-radius,y+height);  
+				ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);	
+			}
+			if(corners[1]!==1){
+				ctx.lineTo(x+width,y);
+			}else{
+				ctx.lineTo(x+width,y+radius);  
+				ctx.quadraticCurveTo(x+width,y,x+width-radius,y);
+			}
+			if(corners[0]!==1){
+				ctx.lineTo(x,y);
+			}else{
+				ctx.lineTo(x+radius,y);  
+				ctx.quadraticCurveTo(x,y,x,y+radius);
+			} 
 			ctx.closePath();
 		}
 		//-----------END DRAWINGS
