@@ -170,12 +170,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				//clear canvas
 				this.primaryContext.clearRect(_startX,startY,(spacing+boxWidth)*31,boxHeight);
 			}
-
-
-
-			if(this.connectorLine){
-				this.drawConnectorLine(startX,startY+(boxHeight/2),totalWidth);
+			
+			if(this.showControls){
+				this.drawControls((totalWidth+spacing)-117,mnstY);
 			}
+			
+			if(this.connectorLine){
+				this.drawConnectorLine(startX,startY+(boxHeight/2),totalWidth+spacing);
+			}
+			
 			for(var i=0;i<md.length;i++){
 				this.drawMonthBox(startX+(i*(spacing+boxWidth)),
 					startY,
@@ -184,6 +187,92 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 					md[i]
 					);
 			}
+			
+			
+		};
+		this.drawControls=function(startX,startY){
+			var ctx=this.primaryContext;
+
+			ctx.save();
+			
+			//*prev Year
+			ctx.fillStyle = this.boxColor;
+			roundedRect(ctx,0+startX,0+startY,17,27,4,[1,0,0,1]);
+			ctx.fill();
+		    ctx.fillStyle = "#FFFFFF";
+		    ctx.beginPath();
+		    ctx.moveTo(15.99+startX, 2+startY);
+		    ctx.lineTo(5.95+startX, 8.44+startY);
+		    ctx.lineTo(16.02+startX, 15.01+startY);
+		    ctx.closePath();
+		    ctx.fill();
+		    ctx.beginPath();
+		    ctx.moveTo(23.98+startX, 2+startY);
+		    ctx.lineTo(13.94+startX, 8.44+startY);
+		    ctx.lineTo(24.01+startX, 15.01+startY);
+		    ctx.closePath();
+		    ctx.fill();
+			ctx.restore();
+			//*/
+			startX+=27;
+			
+			//*prev Month
+			ctx.save();
+			ctx.fillStyle = this.boxColor;
+			ctx.fillRect(0+startX,0+startY,20,17);
+			ctx.fillStyle = "#FFFFFF";
+			ctx.beginPath();
+		    ctx.moveTo(15.02+startX, 2+startY);
+		    ctx.lineTo(5.02+startX, 8.44+startY);
+		    ctx.lineTo(15.02+startX, 15.01+startY);
+		    ctx.closePath();
+		    ctx.fill();
+			ctx.restore();
+			//*/
+			startX+=19.99;
+			//*now
+			ctx.save();
+			ctx.fillStyle = this.boxColor;
+			ctx.fillRect(0+startX, 0+startY, 23, 17);
+			ctx.fillStyle = "#FFFFFF";
+			ctx.fillRect(5+startX, 2+startY, 13, 13);
+			ctx.restore();
+			//*/
+			startX+=22.9;//82.37;
+			//*next month
+			ctx.save();
+			ctx.fillStyle = this.boxColor;
+			ctx.fillRect(0+startX,0+startY,20,17);
+			ctx.fillStyle = "#FFFFFF";
+			ctx.beginPath();
+		    ctx.moveTo(4.98+startX, 2+startY);
+		    ctx.lineTo(14.98+startX, 8.44+startY);
+		    ctx.lineTo(4.98+startX, 15.01+startY);
+		    ctx.closePath();
+		    ctx.fill();
+			ctx.restore();
+			//*/
+			startX+=19.92;//102.29;
+			//*next Year
+			ctx.save();
+			ctx.fillStyle = this.boxColor;
+			roundedRect(ctx,0+startX,0+startY,17,27,4,[0,1,1,0]);
+		    ctx.fill();
+		    ctx.fillStyle = "#FFFFFF";
+		    ctx.beginPath();
+		    ctx.moveTo(11.01+startX, 2+startY);
+		    ctx.lineTo(21.06+startX, 8.44+startY);
+		    ctx.lineTo(10.98+startX, 15.01+startY);
+		    ctx.closePath();
+		    ctx.fill();
+		    ctx.beginPath();
+		    ctx.moveTo(3.02+startX, 2+startY);
+		    ctx.lineTo(13.06+startX, 8.44+startY);
+		    ctx.lineTo(2.99+startX, 15.01+startY);
+		    ctx.closePath();
+		    ctx.fill();
+			//*/
+			ctx.restore();
 		};
 		this.drawMonthName=function(x,y,width,height,radius,text){
 			var ctx=this.primaryContext;
@@ -400,6 +489,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		this.eventedBoxFont=opts.eventedBoxFont||this.boxFont;
 		this.eventedTextColor=opts.eventedTextColor||this.textColor;	
 			//END style days with events
+			//navigation controls
+		this.showControls=(typeof opts.showControls !== "undefined")?opts.showControls:true;	
+			//END navigation controls
 		
 		this.events=opts.events||{};
 		
