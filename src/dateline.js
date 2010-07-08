@@ -127,11 +127,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var boxHeight=this.boxHeight;
 			var cornerRadius=this.cornerRadius;
 			var totalWidth=(spacing+boxWidth)*md.length;
-			
+			var longestWidth=((spacing+boxWidth)*31)+spacing;
 			
 			var _startX=startX; //remember this for clearRect in next step
 			if(align=="center" || align=="right"){
-				var longestWidth=((spacing+boxWidth)*31)+spacing;
+				
 				switch (align){
 					case "center":
 						startX=startX+(longestWidth-totalWidth)/2;
@@ -158,7 +158,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				var mnstX=startX;
 				switch(this.monthNameAlign){
 					case "center":
-						mnstX=((totalWidth+spacing)/2)-45;
+						mnstX=((longestWidth)/2)-45;
 					break;
 					case "right":
 						mnstX=(totalWidth+spacing)-90;
