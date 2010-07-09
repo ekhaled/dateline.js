@@ -9,8 +9,8 @@ initObject={
 	showMonthName:true,
 	monthNameAlign:"center",
 	callbacks:{
-		onEvent:function(e){
-			console.log(e);
+		onEvent:function(day,e){
+			console.log(day,e);
 		}
 	}
 };
