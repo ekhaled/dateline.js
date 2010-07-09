@@ -81,35 +81,35 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var y=this.date.getFullYear();
 			return (td.getDate()==num && td.getFullYear()==y && td.getMonth()==m);	
 		};		
-		this.nextMonth=function(){
+		this.nextMonth=function(e){
 			this.date.setMonth(this.date.getMonth() + 1);
-			this.callBacks["onNavigate"].call(this,this.date);
-			this.callBacks["onNextMonth"].call(this,this.date);
+			this.callBacks["onNavigate"].call(this,this.date,e);
+			this.callBacks["onNextMonth"].call(this,this.date,e);
 			this.draw();
 		};
-		this.prevMonth=function(){
+		this.prevMonth=function(e){
 			this.date.setMonth(this.date.getMonth() - 1);
-			this.callBacks["onNavigate"].call(this,this.date);
-			this.callBacks["onPrevMonth"].call(this,this.date);
+			this.callBacks["onNavigate"].call(this,this.date,e);
+			this.callBacks["onPrevMonth"].call(this,this.date,e);
 			this.draw();
 		};
-		this.nextYear=function(){
+		this.nextYear=function(e){
 			this.date.setYear(this.date.getFullYear() + 1);
-			this.callBacks["onNavigate"].call(this,this.date);
-			this.callBacks["onNextYear"].call(this,this.date);
+			this.callBacks["onNavigate"].call(this,this.date,e);
+			this.callBacks["onNextYear"].call(this,this.date,e);
 			this.draw();
 		};
-		this.prevYear=function(){
+		this.prevYear=function(e){
 			this.date.setYear(this.date.getFullYear() - 1);
-			this.callBacks["onNavigate"].call(this,this.date);
-			this.callBacks["onPrevYear"].call(this,this.date);
+			this.callBacks["onNavigate"].call(this,this.date,e);
+			this.callBacks["onPrevYear"].call(this,this.date,e);
 			this.draw();
 		};
-		this.now=function(){
+		this.now=function(e){
 			td=new Date();
 			this.date=td;
-			this.callBacks["onNavigate"].call(this,this.date);
-			this.callBacks["onNow"].call(this,this.date);
+			this.callBacks["onNavigate"].call(this,this.date,e);
+			this.callBacks["onNow"].call(this,this.date,e);
 			this.draw();
 		};
 		//-----------END DATE CALCs
@@ -441,7 +441,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			    var rect = rects[i];
 			    if ( coords.x >= rect.x && coords.x <= rect.x + rect.width
 			    &&   coords.y >= rect.y && coords.y <= rect.y + rect.height ) {
-			        this.callBacks["onEvent"].call(this,rect);
+			        this.callBacks["onEvent"].call(this,rect,e);
 					return;
 			    }
 			}
@@ -451,7 +451,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			    var rect = rects[i];
 			    if ( coords.x >= rect.x && coords.x <= rect.x + rect.width
 			    &&   coords.y >= rect.y && coords.y <= rect.y + rect.height ) {
-					this[rect["type"]].call(this);
+					this[rect["type"]].call(this,e);
 					return;
 			    }
 			}
