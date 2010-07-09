@@ -51,6 +51,35 @@ $(document).ready(function(){
 		equals(this.tempInit["showMonthName"],ic.showMonthName,"");
 		equals(this.tempInit["monthNameAlign"],ic.monthNameAlign,"");
 	});
+	
+	test("method invocation tests",function(){
+		var date=new Date();
+		ic.nextMonth();
+		equals((date.getMonth() + 1),ic.date.getMonth(),"Month is moved forward properly");
+		ic.nextMonth();
+		equals((date.getMonth() + 2),ic.date.getMonth(),"Month is moved forward properly x 2");
+		ic.prevMonth();
+		equals((date.getMonth() + 1),ic.date.getMonth(),"Month is moved backward properly");
+		ic.prevMonth();
+		equals((date.getMonth()),ic.date.getMonth(),"Month is moved backward properly x 2");
+		
+		ic.nextYear();
+		equals((date.getFullYear() + 1),ic.date.getFullYear(),"Year is moved forward properly");
+		ic.nextYear();
+		equals((date.getFullYear() + 2),ic.date.getFullYear(),"Year is moved forward properly x 2");
+		ic.prevYear();
+		equals((date.getFullYear() + 1),ic.date.getFullYear(),"Year is moved backward properly");
+		ic.prevYear();
+		equals((date.getFullYear()),ic.date.getFullYear(),"Year is moved backward properly x 2");
+		
+		ic.nextYear();
+		ic.nextMonth();
+		equals((date.getFullYear()+1),ic.date.getFullYear(),"Year is moved backward properly");
+		equals((date.getMonth() + 1),ic.date.getMonth(),"Month is moved forward properly");
+		ic.now();
+		equals(date.getMonth(),ic.date.getMonth(),"month moved back to present properly");
+		equals(date.getFullYear(),ic.date.getFullYear(),"Year moved back to present properly");
+		
 	});
 	
 	
