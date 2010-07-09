@@ -24,10 +24,11 @@ $(document).ready(function(){
 	
 	module("jQuery Less",{
 		setup:function(){
-			this.ic=new inlineCalendar;
 			this.tempInit=initObject;
 		}
 	});
+	
+	var ic=new inlineCalendar;
 
 	test("canvas element exists",function(){
 
@@ -37,18 +38,19 @@ $(document).ready(function(){
 	
 	test("has been instantiated",function(){
 
-		equals("function",typeof this.ic.init,"Object instantiated");
+		equals("function",typeof ic.init,"Object instantiated");
 		this.tempInit["canvas"]=document.getElementById("canvas");
-		this.ic.init(this.tempInit);
-		equals(this.tempInit["showControls"],this.ic.showControls,"");
-		equals(this.tempInit["align"],this.ic.align,"");
-		equals(this.tempInit["todayTextColor"],this.ic.todayTextColor,"");
-		equals(this.tempInit["eventedBoxColor"],this.ic.eventedBoxColor,"");
-		equals(this.tempInit["eventedBoxSeparatorColor"],this.ic.eventedBoxSeparatorColor,"");
-		equals(this.tempInit["eventedTextColor"],this.ic.eventedTextColor,"");
-		same(this.tempInit["events"],this.ic.events,"");
-		equals(this.tempInit["showMonthName"],this.ic.showMonthName,"");
-		equals(this.tempInit["monthNameAlign"],this.ic.monthNameAlign,"");
+		ic.init(this.tempInit);
+		equals(this.tempInit["showControls"],ic.showControls,"");
+		equals(this.tempInit["align"],ic.align,"");
+		equals(this.tempInit["todayTextColor"],ic.todayTextColor,"");
+		equals(this.tempInit["eventedBoxColor"],ic.eventedBoxColor,"");
+		equals(this.tempInit["eventedBoxSeparatorColor"],ic.eventedBoxSeparatorColor,"");
+		equals(this.tempInit["eventedTextColor"],ic.eventedTextColor,"");
+		same(this.tempInit["events"],ic.events,"");
+		equals(this.tempInit["showMonthName"],ic.showMonthName,"");
+		equals(this.tempInit["monthNameAlign"],ic.monthNameAlign,"");
+	});
 	});
 	
 	
