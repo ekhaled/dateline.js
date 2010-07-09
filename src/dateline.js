@@ -193,13 +193,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		};
 		this.drawControls=function(startX,startY){
 			var ctx=this.primaryContext;
-
-			ctx.save();
 			
-			//*prev Year
+			//nav buttons Background
 			ctx.fillStyle = this.boxColor;
-			roundedRect(ctx,0+startX,0+startY,17,27,4,[1,0,0,1]);
+			roundedRect(ctx,0+startX,0+startY,17,117,4);
 			ctx.fill();
+			
+			
+			ctx.save();			
+			//*prev Year
 		    ctx.fillStyle = "#FFFFFF";
 		    ctx.beginPath();
 		    ctx.moveTo(15.99+startX, 2+startY);
@@ -220,8 +222,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			
 			//*prev Month
 			ctx.save();
-			ctx.fillStyle = this.boxColor;
-			ctx.fillRect(0+startX,0+startY,20,17);
 			ctx.fillStyle = "#FFFFFF";
 			ctx.beginPath();
 		    ctx.moveTo(15.02+startX, 2+startY);
@@ -235,8 +235,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			startX+=19.99;
 			//*now
 			ctx.save();
-			ctx.fillStyle = this.boxColor;
-			ctx.fillRect(0+startX, 0+startY, 23, 17);
 			ctx.fillStyle = "#FFFFFF";
 			ctx.fillRect(5+startX, 2+startY, 13, 13);
 			ctx.restore();
@@ -245,8 +243,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			startX+=22.9;//82.37;
 			//*next month
 			ctx.save();
-			ctx.fillStyle = this.boxColor;
-			ctx.fillRect(0+startX,0+startY,20,17);
 			ctx.fillStyle = "#FFFFFF";
 			ctx.beginPath();
 		    ctx.moveTo(4.98+startX, 2+startY);
@@ -260,9 +256,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			startX+=19.92;//102.29;
 			//*next Year
 			ctx.save();
-			ctx.fillStyle = this.boxColor;
-			roundedRect(ctx,0+startX,0+startY,17,27,4,[0,1,1,0]);
-		    ctx.fill();
 		    ctx.fillStyle = "#FFFFFF";
 		    ctx.beginPath();
 		    ctx.moveTo(11.01+startX, 2+startY);
