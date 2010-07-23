@@ -7,7 +7,7 @@ initObject={
 	eventedTextColor:"rgba(0,0,255,1)",
 	events:{"2010-07-06":"Description","2010-08-08":"Description 2","2010-08-08":["Description 3","Another event"]},
 	showMonthName:true,
-	monthNameAlign:"center",
+	monthNameHalign:"center",
 	callbacks:{
 		onEvent:function(day,e){
 			console.log(day,e);
@@ -49,7 +49,7 @@ $(document).ready(function(){
 		equals(this.tempInit["eventedTextColor"],ic.eventedTextColor,"");
 		same(this.tempInit["events"],ic.events,"");
 		equals(this.tempInit["showMonthName"],ic.showMonthName,"");
-		equals(this.tempInit["monthNameAlign"],ic.monthNameAlign,"");
+		equals(this.tempInit["monthNameHalign"],ic.monthNameHalign,"");
 	});
 	
 	test("method invocation tests",function(){
@@ -107,7 +107,7 @@ $(document).ready(function(){
 		equals(initObject["eventedTextColor"],obj.eventedTextColor,"");
 		same(initObject["events"],obj.events,"");
 		equals(initObject["showMonthName"],obj.showMonthName,"");
-		equals(initObject["monthNameAlign"],obj.monthNameAlign,"");
+		equals(initObject["monthNameHalign"],obj.monthNameHalign,"");
 	});
 	
 	test("getter functions test",function(){
@@ -122,7 +122,7 @@ $(document).ready(function(){
 		equals(initObject["eventedTextColor"],$("#jcanvas").inlineCalendar("eventedTextColor"),"");
 		same(initObject["events"],$("#jcanvas").inlineCalendar("events"),"");
 		equals(initObject["showMonthName"],$("#jcanvas").inlineCalendar("showMonthName"),"");
-		equals(initObject["monthNameAlign"],$("#jcanvas").inlineCalendar("monthNameAlign"),"");
+		equals(initObject["monthNameHalign"],$("#jcanvas").inlineCalendar("monthNameHalign"),"");
 	});
 	
 	test("setter functions test",function(){
@@ -147,9 +147,9 @@ $(document).ready(function(){
 		equals("rgba(0,0,0,0.2)",$("#jcanvas").inlineCalendar("connectorColor"),"Set connectorColor to rgba(0,0,0,0.2)");
 		$("#jcanvas").inlineCalendar("draw");
 		
-		var monthNameAlign="left";
-		$("#jcanvas").inlineCalendar("monthNameAlign",monthNameAlign);
-		equals("left",$("#jcanvas").inlineCalendar("monthNameAlign"),"Set monthNameAlign to left");
+		var monthNameHalign="left";
+		$("#jcanvas").inlineCalendar("monthNameHalign",monthNameHalign);
+		equals("left",$("#jcanvas").inlineCalendar("monthNameHalign"),"Set monthNameHalign to left");
 		$("#jcanvas").inlineCalendar("draw");
 	});
 	
