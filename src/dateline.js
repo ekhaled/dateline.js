@@ -147,20 +147,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			
 
 			if(this.showMonthName){
-				if(this.monthNameOnTop){
+				if(this.monthNameValign=="top"){
 					mnstY=startY;
 					startY=startY+20;
+					var Added20=true;
 				}else{
-					mnstY=startY+boxHeight+4;
+					if(this.showControls && this.controlsValign=="top"){
+						mnstY=startY+boxHeight+4+20;
+					}else{
+						mnstY=startY+boxHeight+4;
+					}
 				}
 
 				var mnstX=startX;
-				switch(this.monthNameAlign){
+				switch(this.monthNameHalign){
 					case "center":
 						mnstX=((longestWidth)/2)-45;
 					break;
 					case "right":
-						mnstX=(totalWidth+spacing)-90;
+						mnstX=(startX+totalWidth)-90;
 					break;
 				}
 
@@ -169,7 +174,27 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 			
 			if(this.showControls){
-				this.drawControls((totalWidth+spacing)-117,mnstY);
+				var cntX=startX,cntY=startY;
+				if(this.controlsValign=="top"){
+					if(!Added20){
+						cntY=startY;
+						startY=startY+20;	
+					}else{
+						cntY=startY-20;
+					}
+				}else{
+					cntY=startY+boxHeight+4;
+				}
+				switch(this.controlsHalign){
+					case "center":
+						cntX=((longestWidth)/2)-45;
+					break;
+					case "right":
+						cntX=(startX+totalWidth)-117;
+					break;
+				}
+				
+				this.drawControls(cntX,cntY);
 			}
 			
 			if(this.connectorLine){
@@ -480,8 +505,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		this.textShadowColor = opts.textShadowColor||"#5e5e5e";
 		
 		this.showMonthName=(typeof opts.showMonthName !== "undefined")?opts.showMonthName:true;
-		this.monthNameOnTop=(typeof opts.monthNameOnTop !== "undefined")?opts.monthNameOnTop:true;
-		this.monthNameAlign=opts.monthNameAlign||"left";
+		this.monthNameValign=opts.monthNameValign||"top";
+		this.monthNameHalign=opts.monthNameHalign||"left";
 		
 			//Today styles
 		this.todayBoxColor=opts.todayBoxColor||"rgba(0,0,0,1)";
@@ -496,7 +521,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		this.eventedTextColor=opts.eventedTextColor||this.textColor;	
 			//END style days with events
 			//navigation controls
-		this.showControls=(typeof opts.showControls !== "undefined")?opts.showControls:true;	
+		this.showControls=(typeof opts.showControls !== "undefined")?opts.showControls:true;
+		this.controlsValign=opts.controlsValign||"top";
+		this.controlsHalign=opts.controlsHalign||"right";	
 			//END navigation controls
 		
 		this.events=opts.events||{};
