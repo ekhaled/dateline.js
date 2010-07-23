@@ -7,10 +7,13 @@
 		body{
 			background:#e3e3e3;
 		}
-		#wrap{
+		#wrap,#formWrap{
 			margin:100px auto;
 			width:855px;
 			background:#e3e3e3;
+		}
+		#formWrap span{
+			display:block;
 		}
 		#canvas{
 			width:100%;
@@ -46,18 +49,44 @@
 			$(function(){
 				$("#canvas").inlineCalendar({
 					showControls:false,
-					align:"center",
+					align:"left",
 					todayTextColor:"rgb(0,255,0)",
 					eventedBoxColor:"rgba(0,0,0,0.5)",
 					eventedBoxSeparatorColor:"rgba(0,0,255,1)",
 					eventedTextColor:"rgba(0,0,255,1)",
 					events:{"2010-07-06":"Description","2010-08-08":"Description 2","2010-08-08":["Description 3","Another event"]},
 					showMonthName:true,
-					monthNameAlign:"center",
+					monthNameHalign:"center",
 					callbacks:{
 						onEvent:function(e){
 							console.log(e);
 						}
+					}
+				});
+				
+				
+				$("#editorForm").change(function(){
+					var _this=$(this);
+					var arr=_this.serializeArray();
+					if(arr.length){
+						$.each(arr,function(i,el){
+							var val="";
+							if(el.value=="true"){
+								val=true;
+							}else if(el.value=="false"){
+								val=false;
+							}else{
+								var _temp=el.value*1;
+								if(isNaN(_temp)){
+									val=el.value;
+								}else{
+									val=_temp;
+								}
+								
+							}
+							$('#canvas').inlineCalendar(el.name,val);
+						});
+						$('#canvas').inlineCalendar("draw");
 					}
 				});
 			});
@@ -66,11 +95,91 @@
     </head>
     <body>
         <div id="wrap">
-         	<canvas id="canvas" width="855" height="100"></canvas>		
+         	<canvas id="canvas" width="855" height="100"></canvas>	
+			<button onclick="$('#canvas').inlineCalendar('prevYear')"><<</button>
+			<button onclick="$('#canvas').inlineCalendar('prevMonth')"><</button>
+			<button onclick="$('#canvas').inlineCalendar('now')">[]</button>
+			<button onclick="$('#canvas').inlineCalendar('nextMonth')">></button>
+			<button onclick="$('#canvas').inlineCalendar('nextYear')">>></button>	
 		</div>
-		<button onclick="$('#canvas').inlineCalendar('prevYear')"><<</button>
-		<button onclick="$('#canvas').inlineCalendar('prevMonth')"><</button>
-		<button onclick="$('#canvas').inlineCalendar('nextMonth')">></button>
-		<button onclick="$('#canvas').inlineCalendar('nextYear')">>></button>
+		<div id="formWrap">
+			<form id="editorForm">
+				<fieldset>
+					<legend>Basic Options</legend>
+					<span>Align : <select name="align">
+						<option value="left" selected>Left</option>
+						<option value="center">Center</option>
+						<option value="right">Right</option>
+					</select></span>
+					<span>StartX : <input type="text" name="startX" value="10" /></span>
+					<span>StartY : <input type="text" name="startY" value="10" /></span>
+					<span>Spacing : <input type="text" name="spacing" value="5" /></span>
+					<span>Box Height : <input type="text" name="boxHeight" value="41" /></span>
+					<span>Box Width : <input type="text" name="boxWidth" value="22" /></span>
+					<span>Corner Radius : <input type="text" name="cornerRadius" value="5" /></span>
+					<span>Font : <input type="text" name="boxFont" value="8pt Lucida Grande,Tahoma,Arial" /></span>
+					<span>Text Color : <input type="text" name="textColor" value="rgba(255,255,255,1)" /></span>
+					<span>Text Align : <select name="boxTextAlign">
+						<option value="left" >Left</option>
+						<option value="center" selected>Center</option>
+						<option value="right">Right</option>
+					</select></span>
+					<span>Box Color : <input type="text" name="boxColor" value="rgba(0,0,0,0.5)" /></span>
+				</fieldset>
+				<fieldset>
+					<legend>Other Options</legend>
+					<span>Show Box Seperator : <select name="boxSeparator">
+						<option value="true" selected>Yes</option>
+						<option value="false">No</option>
+						</select></span>
+					<span>Box Seperator Color : <input type="text" name="boxSeparatorColor" value="rgba(255,255,255,1)" /></span>	
+					<span>Show Connector Line : <select name="connectorLine">
+						<option value="true" selected>Yes</option>
+						<option value="false">No</option>
+						</select></span>
+					<span>Connector Line Color : <input type="text" name="connectorColor" value="rgba(255,255,255,1)" />	</span>	
+					<span>Show Text Shadow : <select name="textShadow">
+						<option value="true" selected>Yes</option>
+						<option value="false">No</option>
+						</select></span>
+					<span>Text Shadow offsetX : <input type="text" name="textShadowOffsetX" value="0" />	</span>	
+					<span>Text Shadow offsetY : <input type="text" name="textShadowOffsetY" value="1" />	</span>	
+					<span>Text Shadow Blur : <input type="text" name="textShadowBlur" value="0" />	</span>	
+					<span>Text Shadow color : <input type="text" name="textShadowColor" value="#5e5e5e" />	</span>			
+				</fieldset>
+				<fieldset>
+					<legend>Today</legend>
+					<span>Box Color : <input type="text" name="todayBoxColor" value="rgba(0,0,0,1)" /></span>
+					<span>Box Seperator Color : <input type="text" name="todayBoxSeparatorColor" value="rgba(255,255,255,1)" /></span>	
+					<span>Font : <input type="text" name="todayBoxFont" value="8pt Lucida Grande,Tahoma,Arial" /></span>
+					<span>Color : <input type="text" name="todayTextColor" value="rgba(255,255,255,1)" />	</span>			
+				</fieldset>
+				<fieldset>
+					<legend>Days with Events in them</legend>
+					<span>Box Color : <input type="text" name="eventedBoxColor" value="rgba(0,0,0,1)" /></span>
+					<span>Box Seperator Color : <input type="text" name="eventedBoxSeparatorColor" value="rgba(255,255,255,1)" /></span>	
+					<span>Font : <input type="text" name="eventedBoxFont" value="8pt Lucida Grande,Tahoma,Arial" /></span>
+					<span>Color : <input type="text" name="eventedTextColor" value="rgba(255,255,255,1)" />	</span>			
+				</fieldset>
+				<fieldset>
+					<legend>Extraneous Items</legend>
+					<span>Show Month Name : <select name="showMonthName">
+						<option value="true" selected>Yes</option>
+						<option value="false">No</option>
+						</select></span>
+					<span>Month Name Hor. Align : <select name="monthNameHalign">
+						<option value="left" >Left</option>
+						<option value="center" selected>Center</option>
+						<option value="right">Right</option>
+					</select></span>
+					<span>Month Name Ver. Align : <select name="monthNameValign">
+						<option value="top" >Top</option>
+						<option value="bottom">Bottom</option>
+					</select></span>	
+							
+				</fieldset>
+			</form>
+		</div>
+		
     </body>
 </html>
