@@ -129,9 +129,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var totalWidth=(spacing+boxWidth)*md.length;
 			var longestWidth=((spacing+boxWidth)*31)+spacing;
 			
-			var _startX=startX; //remember this for clearRect in next step
-			if(align=="center" || align=="right"){
-				
+			//clear Canvas
+			this.primaryContext.clearRect(0,0,this.canvas.width,this.canvas.height);
+			
+			
+			if(align=="center" || align=="right"){		
 				switch (align){
 					case "center":
 						startX=startX+(longestWidth-totalWidth)/2;
@@ -145,9 +147,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			
 
 			if(this.showMonthName){
-				//clear canvas
-				this.primaryContext.clearRect(_startX,startY,(spacing+boxWidth)*31,boxHeight+21);
-
 				if(this.monthNameOnTop){
 					mnstY=startY;
 					startY=startY+20;
@@ -167,9 +166,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 				this.drawMonthName(mnstX,mnstY,90,17,cornerRadius,this.months[this.date.getMonth()]+" "+this.date.getFullYear());
 
-			}else{
-				//clear canvas
-				this.primaryContext.clearRect(_startX,startY,(spacing+boxWidth)*31,boxHeight);
 			}
 			
 			if(this.showControls){
