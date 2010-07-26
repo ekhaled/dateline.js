@@ -119,13 +119,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			this.eventHotspots=[];this.navHotspots=[]; //empty out event hotspots
 			var md=this.monthDetail();
 			
-			var align=this.align;
-			var startX=this.startX;
-			var startY=this.startY;
-			var spacing=this.spacing;
-			var boxWidth=this.boxWidth;
-			var boxHeight=this.boxHeight;
-			var cornerRadius=this.cornerRadius;
+			var align=this["align"];
+			var startX=this["startX"];
+			var startY=this["startY"];
+			var spacing=this["spacing"];
+			var boxWidth=this["boxWidth"];
+			var boxHeight=this["boxHeight"];
+			var cornerRadius=this["cornerRadius"];
 			var totalWidth=(spacing+boxWidth)*md.length;
 			var longestWidth=((spacing+boxWidth)*31)+spacing;
 			
@@ -146,13 +146,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			
 			
 
-			if(this.showMonthName){
-				if(this.monthNameValign=="top"){
+			if(this["showMonthName"]){
+				if(this["monthNameValign"]=="top"){
 					mnstY=startY;
 					startY=startY+20;
 					var Added20=true;
 				}else{
-					if(this.showControls && this.controlsValign=="top"){
+					if(this["showControls"] && this["controlsValign"]=="top"){
 						mnstY=startY+boxHeight+4+20;
 					}else{
 						mnstY=startY+boxHeight+4;
@@ -160,7 +160,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				}
 
 				var mnstX=startX;
-				switch(this.monthNameHalign){
+				switch(this["monthNameHalign"]){
 					case "center":
 						mnstX=((longestWidth)/2)-45;
 					break;
@@ -173,9 +173,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 			}
 			
-			if(this.showControls){
+			if(this["showControls"]){
 				var cntX=startX,cntY=startY;
-				if(this.controlsValign=="top"){
+				if(this["controlsValign"]=="top"){
 					if(!Added20){
 						cntY=startY;
 						startY=startY+20;	
@@ -185,7 +185,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				}else{
 					cntY=startY+boxHeight+4;
 				}
-				switch(this.controlsHalign){
+				switch(this["controlsHalign"]){
 					case "center":
 						cntX=((longestWidth)/2)-45;
 					break;
@@ -197,7 +197,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				this.drawControls(cntX,cntY);
 			}
 			
-			if(this.connectorLine){
+			if(this["connectorLine"]){
 				this.drawConnectorLine(startX,startY+(boxHeight/2),totalWidth+spacing);
 			}
 			
@@ -216,7 +216,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var ctx=this.primaryContext;
 			
 			//nav buttons Background
-			ctx.fillStyle = this.boxColor;
+			ctx.fillStyle = this["boxColor"];
 			roundedRect(ctx,0+startX,0+startY,17,117,4);
 			ctx.fill();
 			
@@ -298,19 +298,19 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var ctx=this.primaryContext;
 			ctx.save();
 
-			ctx.fillStyle=this.boxColor;
+			ctx.fillStyle=this["boxColor"];
 			roundedRect(ctx,x,y,height,width,radius);
 			ctx.fill();
 
-			if(this.textShadow){
-				ctx.shadowOffsetX = this.textShadowOffsetX;  
-				ctx.shadowOffsetY = this.textShadowOffsetY;  
-				ctx.shadowBlur = this.textShadowBlur;  
-				ctx.shadowColor = this.textShadowColor;
+			if(this["textShadow"]){
+				ctx.shadowOffsetX = this["textShadowOffsetX"];  
+				ctx.shadowOffsetY = this["textShadowOffsetY"];  
+				ctx.shadowBlur = this["textShadowBlur"];  
+				ctx.shadowColor = this["textShadowColor"];
 			}
-			ctx.font=this.boxFont;
-			ctx.textAlign=this.boxTextAlign;
-			ctx.fillStyle = this.textColor;
+			ctx.font=this["boxFont"];
+			ctx.textAlign=this["boxTextAlign"];
+			ctx.fillStyle = this["textColor"];
 			ctx.fillText(text, x+(width/2), y+12,width);
 
 			ctx.restore();
@@ -325,15 +325,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				day.events=this.events[day.date];
 			}
 			//box
-			ctx.fillStyle=notToday?this.boxColor:this.todayBoxColor;
-			ctx.fillStyle=hasEvent?this.eventedBoxColor:ctx.fillStyle; 
+			ctx.fillStyle=notToday?this["boxColor"]:this["todayBoxColor"];
+			ctx.fillStyle=hasEvent?this["eventedBoxColor"]:ctx.fillStyle; 
 
 			roundedRect(ctx,x,y,height,width,radius); 
 			ctx.fill();
 			//box seperator
-			if(this.boxSeparator){
-				var bsc=notToday?this.boxSeparatorColor:this.todayBoxSeparatorColor;
-				bsc=hasEvent?this.eventedBoxSeparatorColor:bsc;
+			if(this["boxSeparator"]){
+				var bsc=notToday?this["boxSeparatorColor"]:this["todayBoxSeparatorColor"];
+				bsc=hasEvent?this["eventedBoxSeparatorColor"]:bsc;
 				ctx.strokeStyle=ctx.fillStyle=bsc;
 				ctx.beginPath();  
 				ctx.moveTo(x,y+((height/2)-0)); 
@@ -359,21 +359,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 			//text
 			ctx.save();
-			if(this.textShadow){
-				ctx.shadowOffsetX = this.textShadowOffsetX;  
-				ctx.shadowOffsetY = this.textShadowOffsetY;  
-				ctx.shadowBlur = this.textShadowBlur;  
-				ctx.shadowColor = this.textShadowColor;
+			if(this["textShadow"]){
+				ctx.shadowOffsetX = this["textShadowOffsetX"];  
+				ctx.shadowOffsetY = this["textShadowOffsetY"];  
+				ctx.shadowBlur = this["textShadowBlur"];  
+				ctx.shadowColor = this["textShadowColor"];
 			}
 
-			var fnt=notToday?this.boxFont:this.todayBoxFont;
-			fnt=hasEvent?this.eventedBoxFont:fnt;
+			var fnt=notToday?this["boxFont"]:this["todayBoxFont"];
+			fnt=hasEvent?this["eventedBoxFont"]:fnt;
 			ctx.font=fnt;
 
-			ctx.textAlign=this.boxTextAlign;
+			ctx.textAlign=this["boxTextAlign"];
 
-			var tfl=notToday?this.textColor:this.todayTextColor;
-			tfl=hasEvent?this.eventedTextColor:tfl;
+			var tfl=notToday?this["textColor"]:this["todayTextColor"];
+			tfl=hasEvent?this["eventedTextColor"]:tfl;
 			ctx.fillStyle = tfl;
 
 			ctx.fillText(day.shortname, x+(width/2), y+12,width);
@@ -387,7 +387,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		this.drawConnectorLine=function(x,y,length){
 			var ctx=this.primaryContext;
 			ctx.save();
-			ctx.strokeStyle=this.connectorColor;
+			ctx.strokeStyle=this["connectorColor"];
 			ctx.moveTo(x,y);
 			ctx.lineTo(length,y);
 			ctx.stroke();
@@ -478,52 +478,52 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	inlineCalendar.prototype.init=function(opts){
 		//options
 		opts=opts||{};
-		this.align=opts.align||"left";
-		this.startX=opts.startX||10;
-		this.startY=opts.startY||10;
-		this.spacing=opts.spacing||5;
-		this.boxHeight=opts.boxHeight||41;
-		this.boxWidth=opts.boxWidth||20;
-		this.cornerRadius=opts.cornerRadius||5;
+		this["align"]=opts["align"]||"left";
+		this["startX"]=opts["startX"]||10;
+		this["startY"]=opts["startY"]||10;
+		this["spacing"]=opts["spacing"]||5;
+		this["boxHeight"]=opts["boxHeight"]||41;
+		this["boxWidth"]=opts["boxWidth"]||20;
+		this["cornerRadius"]=opts["cornerRadius"]||5;
 		
-		this.boxColor=opts.boxColor||"rgba(0,0,0,0.5)";
-		this.boxFont=opts.boxFont||"8pt Lucida Grande,Tahoma,Arial";
-		this.boxTextAlign=opts.boxTextAlign||"center";
+		this["boxColor"]=opts["boxColor"]||"rgba(0,0,0,0.5)";
+		this["boxFont"]=opts["boxFont"]||"8pt Lucida Grande,Tahoma,Arial";
+		this["boxTextAlign"]=opts["boxTextAlign"]||"center";
 		
-		this.textColor=opts.textColor||"rgba(255,255,255,1)";
+		this["textColor"]=opts["textColor"]||"rgba(255,255,255,1)";
 		
-		this.boxSeparator=(typeof opts.boxSeparator !== "undefined")?opts.boxSeperator:true;
-		this.boxSeparatorColor=opts.boxSeparatorColor||"rgba(255,255,255,1)";
+		this["boxSeparator"]=(typeof opts["boxSeparator"] !== "undefined")?opts.boxSeperator:true;
+		this["boxSeparatorColor"]=opts["boxSeparatorColor"]||"rgba(255,255,255,1)";
 		
-		this.connectorLine=(typeof opts.connectorLine !== "undefined")?opts.connectorLine:true;
-		this.connectorColor=opts.connectorColor||"rgba(255,255,255,1)";
+		this["connectorLine"]=(typeof opts["connectorLine"] !== "undefined")?opts["connectorLine"]:true;
+		this["connectorColor"]=opts["connectorColor"]||"rgba(255,255,255,1)";
 		
-		this.textShadow=(typeof opts.textShadow !== "undefined")?opts.textShadow:true;
-		this.textShadowOffsetX = opts.textShadowOffsetX||0;
-		this.textShadowOffsetY = opts.textShadowOffsetY||1;
-		this.textShadowBlur = opts.textShadowBlur||0; 
-		this.textShadowColor = opts.textShadowColor||"#5e5e5e";
+		this["textShadow"]=(typeof opts["textShadow"] !== "undefined")?opts["textShadow"]:true;
+		this["textShadowOffsetX"] = opts["textShadowOffsetX"]||0;
+		this["textShadowOffsetY"] = opts["textShadowOffsetY"]||1;
+		this["textShadowBlur"] = opts["textShadowBlur"]||0; 
+		this["textShadowColor"] = opts["textShadowColor"]||"#5e5e5e";
 		
-		this.showMonthName=(typeof opts.showMonthName !== "undefined")?opts.showMonthName:true;
-		this.monthNameValign=opts.monthNameValign||"top";
-		this.monthNameHalign=opts.monthNameHalign||"left";
+		this["showMonthName"]=(typeof opts["showMonthName"] !== "undefined")?opts["showMonthName"]:true;
+		this["monthNameValign"]=opts["monthNameValign"]||"top";
+		this["monthNameHalign"]=opts["monthNameHalign"]||"left";
 		
 			//Today styles
-		this.todayBoxColor=opts.todayBoxColor||"rgba(0,0,0,1)";
-		this.todayBoxSeparatorColor=opts.todayBoxSeparatorColor||this.boxSeparatorColor;
-		this.todayBoxFont=opts.todayBoxFont||this.boxFont;
-		this.todayTextColor=opts.todayTextColor||this.textColor;
+		this["todayBoxColor"]=opts["todayBoxColor"]||"rgba(0,0,0,1)";
+		this["todayBoxSeparatorColor"]=opts["todayBoxSeparatorColor"]||this["boxSeparatorColor"];
+		this["todayBoxFont"]=opts["todayBoxFont"]||this["boxFont"];
+		this["todayTextColor"]=opts["todayTextColor"]||this["textColor"];
 			//END Today styles
 			//style days with events
-		this.eventedBoxColor=opts.eventedBoxColor||this.boxColor;
-		this.eventedBoxSeparatorColor=opts.eventedBoxSeparatorColor||this.boxSeparatorColor;
-		this.eventedBoxFont=opts.eventedBoxFont||this.boxFont;
-		this.eventedTextColor=opts.eventedTextColor||this.textColor;	
+		this["eventedBoxColor"]=opts["eventedBoxColor"]||this["boxColor"];
+		this["eventedBoxSeparatorColor"]=opts["eventedBoxSeparatorColor"]||this["boxSeparatorColor"];
+		this["eventedBoxFont"]=opts["eventedBoxFont"]||this["boxFont"];
+		this["eventedTextColor"]=opts["eventedTextColor"]||this["textColor"];	
 			//END style days with events
 			//navigation controls
-		this.showControls=(typeof opts.showControls !== "undefined")?opts.showControls:true;
-		this.controlsValign=opts.controlsValign||"top";
-		this.controlsHalign=opts.controlsHalign||"right";	
+		this["showControls"]=(typeof opts["showControls"] !== "undefined")?opts["showControls"]:true;
+		this["controlsValign"]=opts["controlsValign"]||"top";
+		this["controlsHalign"]=opts["controlsHalign"]||"right";	
 			//END navigation controls
 		
 		this.events=opts.events||{};

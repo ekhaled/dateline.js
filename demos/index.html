@@ -121,7 +121,8 @@
 				});
 				
 				$("legend").click(function(){
-					$(this).next().slideDown().end().parent().siblings().find(".options_holder:visible").slideUp();
+					$(this).next().slideDown().end()
+					.parent().siblings().find(".options_holder:visible").slideUp();
 				})
 			});
 	</script>
