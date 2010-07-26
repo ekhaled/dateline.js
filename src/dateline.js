@@ -1,4 +1,4 @@
-/**
+/*!
 Copyright (c) 2010 http://www.ekhaled.co.uk/
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -22,6 +22,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 **/
 (function(){
+	
+	//COMMONLY USED STRINGS
+	var s_align="align",s_startX="startX",s_startY="startY",s_spacing="spacing",s_boxHeight="boxHeight",s_boxWidth="boxWidth",s_cornerRadius="cornerRadius",s_boxFont="boxFont",s_textColor="textColor",s_boxTextAlign="boxTextAlign",s_boxColor="boxColor",s_boxSeparator="boxSeparator",s_boxSeparatorColor="boxSeparatorColor",s_connectorLine="connectorLine",s_connectorColor="connectorColor",s_textShadow="textShadow",s_textShadowOffsetX="textShadowOffsetX",s_textShadowOffsetY="textShadowOffsetY",s_textShadowBlur="textShadowBlur",s_textShadowColor="textShadowColor",s_todayBoxColor="todayBoxColor",s_todayBoxSeparatorColor="todayBoxSeparatorColor",s_todayBoxFont="todayBoxFont",s_todayTextColor="todayTextColor",s_eventedBoxColor="eventedBoxColor",s_eventedBoxSeparatorColor="eventedBoxSeparatorColor",s_eventedBoxFont="eventedBoxFont",s_eventedTextColor="eventedTextColor",s_showMonthName="showMonthName",s_monthNameHalign="monthNameHalign",s_monthNameValign="monthNameValign",s_showControls="showControls",s_controlsHalign="controlsHalign",s_controlsValign="controlsValign",s_white="#FFFFFF",s_undefined="undefined",s_top="top",s_center="center",s_right="right",s_left="left";
+
+	//END COMMONLY USED STRINGS
 		
 	var inlineCalendar=window.inlineCalendar=function(opts){
 		this.monthLengths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -119,13 +124,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			this.eventHotspots=[];this.navHotspots=[]; //empty out event hotspots
 			var md=this.monthDetail();
 			
-			var align=this["align"];
-			var startX=this["startX"];
-			var startY=this["startY"];
-			var spacing=this["spacing"];
-			var boxWidth=this["boxWidth"];
-			var boxHeight=this["boxHeight"];
-			var cornerRadius=this["cornerRadius"];
+			var align=this[s_align];
+			var startX=this[s_startX];
+			var startY=this[s_startY];
+			var spacing=this[s_spacing];
+			var boxWidth=this[s_boxWidth];
+			var boxHeight=this[s_boxHeight];
+			var cornerRadius=this[s_cornerRadius];
 			var totalWidth=(spacing+boxWidth)*md.length;
 			var longestWidth=((spacing+boxWidth)*31)+spacing;
 			
@@ -133,12 +138,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			this.primaryContext.clearRect(0,0,this.canvas.width,this.canvas.height);
 			
 			
-			if(align=="center" || align=="right"){		
+			if(align==s_center || align==s_right){		
 				switch (align){
-					case "center":
+					case s_center:
 						startX=startX+(longestWidth-totalWidth)/2;
 					break;
-					case "right":
+					case s_right:
 						startX=startX+(longestWidth-totalWidth);
 					break;
 				}				
@@ -146,13 +151,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			
 			
 
-			if(this["showMonthName"]){
-				if(this["monthNameValign"]=="top"){
+			if(this[s_showMonthName]){
+				if(this[s_monthNameValign]==s_top){
 					mnstY=startY;
 					startY=startY+20;
 					var Added20=true;
 				}else{
-					if(this["showControls"] && this["controlsValign"]=="top"){
+					if(this[s_showControls] && this[s_controlsValign]==s_top){
 						mnstY=startY+boxHeight+4+20;
 					}else{
 						mnstY=startY+boxHeight+4;
@@ -160,11 +165,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				}
 
 				var mnstX=startX;
-				switch(this["monthNameHalign"]){
-					case "center":
+				switch(this[s_monthNameHalign]){
+					case s_center:
 						mnstX=((longestWidth)/2)-45;
 					break;
-					case "right":
+					case s_right:
 						mnstX=(startX+totalWidth)-90;
 					break;
 				}
@@ -173,9 +178,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 			}
 			
-			if(this["showControls"]){
+			if(this[s_showControls]){
 				var cntX=startX,cntY=startY;
-				if(this["controlsValign"]=="top"){
+				if(this[s_controlsValign]==s_top){
 					if(!Added20){
 						cntY=startY;
 						startY=startY+20;	
@@ -185,11 +190,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				}else{
 					cntY=startY+boxHeight+4;
 				}
-				switch(this["controlsHalign"]){
-					case "center":
+				switch(this[s_controlsHalign]){
+					case s_center:
 						cntX=((longestWidth)/2)-45;
 					break;
-					case "right":
+					case s_right:
 						cntX=(startX+totalWidth)-117;
 					break;
 				}
@@ -197,7 +202,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				this.drawControls(cntX,cntY);
 			}
 			
-			if(this["connectorLine"]){
+			if(this[s_connectorLine]){
 				this.drawConnectorLine(startX,startY+(boxHeight/2),totalWidth+spacing);
 			}
 			
@@ -216,14 +221,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var ctx=this.primaryContext;
 			
 			//nav buttons Background
-			ctx.fillStyle = this["boxColor"];
+			ctx.fillStyle = this[s_boxColor];
 			roundedRect(ctx,0+startX,0+startY,17,117,4);
 			ctx.fill();
 			
 			
 			ctx.save();			
 			//*prev Year
-		    ctx.fillStyle = "#FFFFFF";
+		    ctx.fillStyle = s_white;
 		    ctx.beginPath();
 		    ctx.moveTo(15.99+startX, 2+startY);
 		    ctx.lineTo(5.95+startX, 8.44+startY);
@@ -243,7 +248,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			
 			//*prev Month
 			ctx.save();
-			ctx.fillStyle = "#FFFFFF";
+			ctx.fillStyle = s_white;
 			ctx.beginPath();
 		    ctx.moveTo(15.02+startX, 2+startY);
 		    ctx.lineTo(5.02+startX, 8.44+startY);
@@ -256,7 +261,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			startX+=19.99;
 			//*now
 			ctx.save();
-			ctx.fillStyle = "#FFFFFF";
+			ctx.fillStyle = s_white;
 			ctx.fillRect(5+startX, 2+startY, 13, 13);
 			ctx.restore();
 			this.navHotspots.push({x:startX,y:startY,width:23,height:17,type:"now"});
@@ -264,7 +269,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			startX+=22.9;//82.37;
 			//*next month
 			ctx.save();
-			ctx.fillStyle = "#FFFFFF";
+			ctx.fillStyle = s_white;
 			ctx.beginPath();
 		    ctx.moveTo(4.98+startX, 2+startY);
 		    ctx.lineTo(14.98+startX, 8.44+startY);
@@ -277,7 +282,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			startX+=19.92;//102.29;
 			//*next Year
 			ctx.save();
-		    ctx.fillStyle = "#FFFFFF";
+		    ctx.fillStyle = s_white;
 		    ctx.beginPath();
 		    ctx.moveTo(11.01+startX, 2+startY);
 		    ctx.lineTo(21.06+startX, 8.44+startY);
@@ -298,19 +303,19 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var ctx=this.primaryContext;
 			ctx.save();
 
-			ctx.fillStyle=this["boxColor"];
+			ctx.fillStyle=this[s_boxColor];
 			roundedRect(ctx,x,y,height,width,radius);
 			ctx.fill();
 
-			if(this["textShadow"]){
-				ctx.shadowOffsetX = this["textShadowOffsetX"];  
-				ctx.shadowOffsetY = this["textShadowOffsetY"];  
-				ctx.shadowBlur = this["textShadowBlur"];  
-				ctx.shadowColor = this["textShadowColor"];
+			if(this[s_textShadow]){
+				ctx.shadowOffsetX = this[s_textShadowOffsetX];  
+				ctx.shadowOffsetY = this[s_textShadowOffsetY];  
+				ctx.shadowBlur = this[s_textShadowBlur];  
+				ctx.shadowColor = this[s_textShadowColor];
 			}
-			ctx.font=this["boxFont"];
-			ctx.textAlign=this["boxTextAlign"];
-			ctx.fillStyle = this["textColor"];
+			ctx.font=this[s_boxFont];
+			ctx.textAlign=this[s_boxTextAlign];
+			ctx.fillStyle = this[s_textColor];
 			ctx.fillText(text, x+(width/2), y+12,width);
 
 			ctx.restore();
@@ -325,15 +330,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				day.events=this.events[day.date];
 			}
 			//box
-			ctx.fillStyle=notToday?this["boxColor"]:this["todayBoxColor"];
-			ctx.fillStyle=hasEvent?this["eventedBoxColor"]:ctx.fillStyle; 
+			ctx.fillStyle=notToday?this[s_boxColor]:this[s_todayBoxColor];
+			ctx.fillStyle=hasEvent?this[s_eventedBoxColor]:ctx.fillStyle; 
 
 			roundedRect(ctx,x,y,height,width,radius); 
 			ctx.fill();
 			//box seperator
-			if(this["boxSeparator"]){
-				var bsc=notToday?this["boxSeparatorColor"]:this["todayBoxSeparatorColor"];
-				bsc=hasEvent?this["eventedBoxSeparatorColor"]:bsc;
+			if(this[s_boxSeparator]){
+				var bsc=notToday?this[s_boxSeparatorColor]:this[s_todayBoxSeparatorColor];
+				bsc=hasEvent?this[s_eventedBoxSeparatorColor]:bsc;
 				ctx.strokeStyle=ctx.fillStyle=bsc;
 				ctx.beginPath();  
 				ctx.moveTo(x,y+((height/2)-0)); 
@@ -359,21 +364,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 			//text
 			ctx.save();
-			if(this["textShadow"]){
-				ctx.shadowOffsetX = this["textShadowOffsetX"];  
-				ctx.shadowOffsetY = this["textShadowOffsetY"];  
-				ctx.shadowBlur = this["textShadowBlur"];  
-				ctx.shadowColor = this["textShadowColor"];
+			if(this[s_textShadow]){
+				ctx.shadowOffsetX = this[s_textShadowOffsetX];  
+				ctx.shadowOffsetY = this[s_textShadowOffsetY];  
+				ctx.shadowBlur = this[s_textShadowBlur];  
+				ctx.shadowColor = this[s_textShadowColor];
 			}
 
-			var fnt=notToday?this["boxFont"]:this["todayBoxFont"];
-			fnt=hasEvent?this["eventedBoxFont"]:fnt;
+			var fnt=notToday?this[s_boxFont]:this[s_todayBoxFont];
+			fnt=hasEvent?this[s_eventedBoxFont]:fnt;
 			ctx.font=fnt;
 
-			ctx.textAlign=this["boxTextAlign"];
+			ctx.textAlign=this[s_boxTextAlign];
 
-			var tfl=notToday?this["textColor"]:this["todayTextColor"];
-			tfl=hasEvent?this["eventedTextColor"]:tfl;
+			var tfl=notToday?this[s_textColor]:this[s_todayTextColor];
+			tfl=hasEvent?this[s_eventedTextColor]:tfl;
 			ctx.fillStyle = tfl;
 
 			ctx.fillText(day.shortname, x+(width/2), y+12,width);
@@ -387,7 +392,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		this.drawConnectorLine=function(x,y,length){
 			var ctx=this.primaryContext;
 			ctx.save();
-			ctx.strokeStyle=this["connectorColor"];
+			ctx.strokeStyle=this[s_connectorColor];
 			ctx.moveTo(x,y);
 			ctx.lineTo(length,y);
 			ctx.stroke();
@@ -428,7 +433,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		
 		//-----------EVENTS
 		this.getCoords=function(e){
-			if(typeof window.jQuery !== "undefined"){
+			if(typeof window.jQuery !== s_undefined){
 				var offset=$(this.canvas).offset();
 				return {x:(e.clientX-offset.left),y:(e.clientY-offset.top)};
 			}else{
@@ -478,52 +483,52 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	inlineCalendar.prototype.init=function(opts){
 		//options
 		opts=opts||{};
-		this["align"]=opts["align"]||"left";
-		this["startX"]=opts["startX"]||10;
-		this["startY"]=opts["startY"]||10;
-		this["spacing"]=opts["spacing"]||5;
-		this["boxHeight"]=opts["boxHeight"]||41;
-		this["boxWidth"]=opts["boxWidth"]||20;
-		this["cornerRadius"]=opts["cornerRadius"]||5;
+		this[s_align]=opts[s_align]||s_left;
+		this[s_startX]=opts[s_startX]||10;
+		this[s_startY]=opts[s_startY]||10;
+		this[s_spacing]=opts[s_spacing]||5;
+		this[s_boxHeight]=opts[s_boxHeight]||41;
+		this[s_boxWidth]=opts[s_boxWidth]||20;
+		this[s_cornerRadius]=opts[s_cornerRadius]||5;
 		
-		this["boxColor"]=opts["boxColor"]||"rgba(0,0,0,0.5)";
-		this["boxFont"]=opts["boxFont"]||"8pt Lucida Grande,Tahoma,Arial";
-		this["boxTextAlign"]=opts["boxTextAlign"]||"center";
+		this[s_boxColor]=opts[s_boxColor]||"rgba(0,0,0,0.5)";
+		this[s_boxFont]=opts[s_boxFont]||"8pt Lucida Grande,Tahoma,Arial";
+		this[s_boxTextAlign]=opts[s_boxTextAlign]||s_center;
 		
-		this["textColor"]=opts["textColor"]||"rgba(255,255,255,1)";
+		this[s_textColor]=opts[s_textColor]||s_white;
 		
-		this["boxSeparator"]=(typeof opts["boxSeparator"] !== "undefined")?opts.boxSeperator:true;
-		this["boxSeparatorColor"]=opts["boxSeparatorColor"]||"rgba(255,255,255,1)";
+		this[s_boxSeparator]=(typeof opts[s_boxSeparator] !== s_undefined)?opts[s_boxSeparator]:true;
+		this[s_boxSeparatorColor]=opts[s_boxSeparatorColor]||s_white;
 		
-		this["connectorLine"]=(typeof opts["connectorLine"] !== "undefined")?opts["connectorLine"]:true;
-		this["connectorColor"]=opts["connectorColor"]||"rgba(255,255,255,1)";
+		this[s_connectorLine]=(typeof opts[s_connectorLine] !== s_undefined)?opts[s_connectorLine]:true;
+		this[s_connectorColor]=opts[s_connectorColor]||s_white;
 		
-		this["textShadow"]=(typeof opts["textShadow"] !== "undefined")?opts["textShadow"]:true;
-		this["textShadowOffsetX"] = opts["textShadowOffsetX"]||0;
-		this["textShadowOffsetY"] = opts["textShadowOffsetY"]||1;
-		this["textShadowBlur"] = opts["textShadowBlur"]||0; 
-		this["textShadowColor"] = opts["textShadowColor"]||"#5e5e5e";
+		this[s_textShadow]=(typeof opts[s_textShadow] !== s_undefined)?opts[s_textShadow]:true;
+		this[s_textShadowOffsetX] = opts[s_textShadowOffsetX]||0;
+		this[s_textShadowOffsetY] = opts[s_textShadowOffsetY]||1;
+		this[s_textShadowBlur] = opts[s_textShadowBlur]||0; 
+		this[s_textShadowColor] = opts[s_textShadowColor]||"#5e5e5e";
 		
-		this["showMonthName"]=(typeof opts["showMonthName"] !== "undefined")?opts["showMonthName"]:true;
-		this["monthNameValign"]=opts["monthNameValign"]||"top";
-		this["monthNameHalign"]=opts["monthNameHalign"]||"left";
+		this[s_showMonthName]=(typeof opts[s_showMonthName] !== s_undefined)?opts[s_showMonthName]:true;
+		this[s_monthNameValign]=opts[s_monthNameValign]||s_top;
+		this[s_monthNameHalign]=opts[s_monthNameHalign]||s_left;
 		
 			//Today styles
-		this["todayBoxColor"]=opts["todayBoxColor"]||"rgba(0,0,0,1)";
-		this["todayBoxSeparatorColor"]=opts["todayBoxSeparatorColor"]||this["boxSeparatorColor"];
-		this["todayBoxFont"]=opts["todayBoxFont"]||this["boxFont"];
-		this["todayTextColor"]=opts["todayTextColor"]||this["textColor"];
+		this[s_todayBoxColor]=opts[s_todayBoxColor]||"rgba(0,0,0,1)";
+		this[s_todayBoxSeparatorColor]=opts[s_todayBoxSeparatorColor]||this[s_boxSeparatorColor];
+		this[s_todayBoxFont]=opts[s_todayBoxFont]||this[s_boxFont];
+		this[s_todayTextColor]=opts[s_todayTextColor]||this[s_textColor];
 			//END Today styles
 			//style days with events
-		this["eventedBoxColor"]=opts["eventedBoxColor"]||this["boxColor"];
-		this["eventedBoxSeparatorColor"]=opts["eventedBoxSeparatorColor"]||this["boxSeparatorColor"];
-		this["eventedBoxFont"]=opts["eventedBoxFont"]||this["boxFont"];
-		this["eventedTextColor"]=opts["eventedTextColor"]||this["textColor"];	
+		this[s_eventedBoxColor]=opts[s_eventedBoxColor]||this[s_boxColor];
+		this[s_eventedBoxSeparatorColor]=opts[s_eventedBoxSeparatorColor]||this[s_boxSeparatorColor];
+		this[s_eventedBoxFont]=opts[s_eventedBoxFont]||this[s_boxFont];
+		this[s_eventedTextColor]=opts[s_eventedTextColor]||this[s_textColor];	
 			//END style days with events
 			//navigation controls
-		this["showControls"]=(typeof opts["showControls"] !== "undefined")?opts["showControls"]:true;
-		this["controlsValign"]=opts["controlsValign"]||"top";
-		this["controlsHalign"]=opts["controlsHalign"]||"right";	
+		this[s_showControls]=(typeof opts[s_showControls] !== s_undefined)?opts[s_showControls]:true;
+		this[s_controlsValign]=opts[s_controlsValign]||s_top;
+		this[s_controlsHalign]=opts[s_controlsHalign]||s_right;	
 			//END navigation controls
 		
 		this.events=opts.events||{};
@@ -567,10 +572,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		};
 	};
 	
-	if(typeof window.jQuery !== "undefined"){
+	if(typeof window.jQuery !== s_undefined){
 		jQuery.fn.inlineCalendar=function(opts,arg){
 			var cn=this[0];
-			if((typeof opts == "object") || (typeof opts == "undefined")){
+			if((typeof opts == "object") || (typeof opts == s_undefined)){
 				var ic=new inlineCalendar;
 				var options=opts||{};
 				options.canvas=cn;
@@ -584,7 +589,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 					if(jQuery.isFunction(ic[opts])){
 						ic[opts].apply(ic,Array.prototype.splice.call(arguments,1));
 					}else{
-						if(typeof arg !== "undefined"){
+						if(typeof arg !== s_undefined){
 							ic[opts]=arg;
 						}else{
 							return ic[opts];
