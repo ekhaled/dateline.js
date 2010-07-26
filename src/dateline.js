@@ -483,7 +483,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		this.startY=opts.startY||10;
 		this.spacing=opts.spacing||5;
 		this.boxHeight=opts.boxHeight||41;
-		this.boxWidth=opts.boxWidth||22;
+		this.boxWidth=opts.boxWidth||20;
 		this.cornerRadius=opts.cornerRadius||5;
 		
 		this.boxColor=opts.boxColor||"rgba(0,0,0,0.5)";
