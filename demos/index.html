@@ -6,14 +6,69 @@
 	<style type="text/css">
 		body{
 			background:#e3e3e3;
+			font-size:11px;
+			font-family:Lucida Grande,Arial, Helvetica;
+			color:#5e5e5e;
+			text-shadow:0px 1px 1px #fff;
 		}
-		#wrap,#formWrap{
-			margin:100px auto;
-			width:855px;
+		.clearfix:after {
+		    content: ".";
+		    display: block;
+		    clear: both;
+		    visibility: hidden;
+		    line-height: 0;
+		    height: 0;
+		}
+
+		.clearfix {
+		    display: inline-block;
+		}
+
+		html[xmlns] .clearfix {
+		    display: block;
+		}
+
+		* html .clearfix {
+		    height: 1%;
+		}
+		#outerWrap{
+			width:1010px;
+			margin:0 auto;
+		}
+		#wrap{
+			margin:50px auto;
+			width:800px;
 			background:#e3e3e3;
+			float:left;
+		}
+		#buttonHolder{
+			width:400px;
+			margin:0 auto;
+			text-align:center;
+			padding:10px;
+		}
+		#formWrap{
+			float:right;
+			width:200px;
+		}
+		#formWrap fieldset{
+			width:100%;
+		}
+		#formWrap legend{
+			font-size:13px;
+			font-weight:bold;
+			cursor:pointer;
 		}
 		#formWrap span{
 			display:block;
+			white-space:nowrap;
+			clear:both;
+			text-align:right;
+			margin:3px 0px;
+		}
+		#formWrap input,#formWrap select{
+			width:70px;
+			font-size:10px;
 		}
 		#canvas{
 			width:100%;
@@ -23,40 +78,16 @@
 			cursor:pointer;
 			border:1px solid #ccc;
 		}
+		.options_holder{
+			display:none;
+		}
 	</style>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
         <script type="text/javascript" src="../src/dateline.js"></script>
 	<script type="text/javascript">
-			/*
-			var ic=new inlineCalendar;
-			
-            window.onload=function(){	
-				ic.init({
-					canvas:document.getElementById("canvas"),
-					todayTextColor:"rgb(0,255,0)",
-					eventedBoxColor:"rgba(0,0,0,0.5)",
-					eventedBoxSeparatorColor:"rgba(0,0,255,1)",
-					eventedTextColor:"rgba(0,0,255,1)",
-					events:{"2010-07-06":"Description","2010-07-08":"Description 2"},
-					monthNameOnTop:true,
-					monthNameAlign:"center",
-					callback:function(event){
-						console.log(event);
-					}
-				});
-			};
-			//*/
 			$(function(){
 				$("#canvas").inlineCalendar({
-					showControls:false,
-					align:"left",
-					todayTextColor:"rgb(0,255,0)",
-					eventedBoxColor:"rgba(0,0,0,0.5)",
-					eventedBoxSeparatorColor:"rgba(0,0,255,1)",
-					eventedTextColor:"rgba(0,0,255,1)",
 					events:{"2010-07-06":"Description","2010-08-08":"Description 2","2010-08-08":["Description 3","Another event"]},
-					showMonthName:true,
-					monthNameHalign:"center",
 					callbacks:{
 						onEvent:function(e){
 							console.log(e);
@@ -81,105 +112,140 @@
 									val=el.value;
 								}else{
 									val=_temp;
-								}
-								
+								}				
 							}
 							$('#canvas').inlineCalendar(el.name,val);
 						});
 						$('#canvas').inlineCalendar("draw");
 					}
 				});
+				
+				$("legend").click(function(){
+					$(this).next().slideDown().end().parent().siblings().find(".options_holder:visible").slideUp();
+				})
 			});
 	</script>
 	    
     </head>
     <body>
-        <div id="wrap">
-         	<canvas id="canvas" width="855" height="100"></canvas>	
-			<button onclick="$('#canvas').inlineCalendar('prevYear')"><<</button>
+	<div id="outerWrap" class="clearfix">
+		<div id="wrap">
+         	<canvas id="canvas" width="800" height="100"></canvas>	
+			<div id="buttonHolder"><button onclick="$('#canvas').inlineCalendar('prevYear')">&laquo;</button>
 			<button onclick="$('#canvas').inlineCalendar('prevMonth')"><</button>
-			<button onclick="$('#canvas').inlineCalendar('now')">[]</button>
+			<button onclick="$('#canvas').inlineCalendar('now')">&#9679;</button>
 			<button onclick="$('#canvas').inlineCalendar('nextMonth')">></button>
-			<button onclick="$('#canvas').inlineCalendar('nextYear')">>></button>	
+			<button onclick="$('#canvas').inlineCalendar('nextYear')">&raquo;</button></div>	
 		</div>
-		<div id="formWrap">
+		<div id="formWrap" class="clearfix">
 			<form id="editorForm">
 				<fieldset>
 					<legend>Basic Options</legend>
-					<span>Align : <select name="align">
-						<option value="left" selected>Left</option>
-						<option value="center">Center</option>
-						<option value="right">Right</option>
-					</select></span>
-					<span>StartX : <input type="text" name="startX" value="10" /></span>
-					<span>StartY : <input type="text" name="startY" value="10" /></span>
-					<span>Spacing : <input type="text" name="spacing" value="5" /></span>
-					<span>Box Height : <input type="text" name="boxHeight" value="41" /></span>
-					<span>Box Width : <input type="text" name="boxWidth" value="22" /></span>
-					<span>Corner Radius : <input type="text" name="cornerRadius" value="5" /></span>
-					<span>Font : <input type="text" name="boxFont" value="8pt Lucida Grande,Tahoma,Arial" /></span>
-					<span>Text Color : <input type="text" name="textColor" value="rgba(255,255,255,1)" /></span>
-					<span>Text Align : <select name="boxTextAlign">
-						<option value="left" >Left</option>
-						<option value="center" selected>Center</option>
-						<option value="right">Right</option>
-					</select></span>
-					<span>Box Color : <input type="text" name="boxColor" value="rgba(0,0,0,0.5)" /></span>
+					<div class="options_holder">
+						<span>Align : <select name="align">
+							<option value="left" selected>Left</option>
+							<option value="center">Center</option>
+							<option value="right">Right</option>
+						</select></span>
+						<span>StartX : <input type="text" name="startX" value="10" /></span>
+						<span>StartY : <input type="text" name="startY" value="10" /></span>
+						<span>Spacing : <input type="text" name="spacing" value="5" /></span>
+						<span>Box Height : <input type="text" name="boxHeight" value="41" /></span>
+						<span>Box Width : <input type="text" name="boxWidth" value="20" /></span>
+						<span>Corner Radius : <input type="text" name="cornerRadius" value="5" /></span>
+						<span>Font : <input type="text" name="boxFont" value="8pt Lucida Grande,Tahoma,Arial" /></span>
+						<span>Text Color : <input type="text" name="textColor" value="rgba(255,255,255,1)" /></span>
+						<span>Text Align : <select name="boxTextAlign">
+							<option value="left" >Left</option>
+							<option value="center" selected>Center</option>
+							<option value="right">Right</option>
+						</select></span>
+						<span>Box Color : <input type="text" name="boxColor" value="rgba(0,0,0,0.5)" /></span>
+					</div>
 				</fieldset>
 				<fieldset>
 					<legend>Other Options</legend>
-					<span>Show Box Seperator : <select name="boxSeparator">
-						<option value="true" selected>Yes</option>
-						<option value="false">No</option>
-						</select></span>
-					<span>Box Seperator Color : <input type="text" name="boxSeparatorColor" value="rgba(255,255,255,1)" /></span>	
-					<span>Show Connector Line : <select name="connectorLine">
-						<option value="true" selected>Yes</option>
-						<option value="false">No</option>
-						</select></span>
-					<span>Connector Line Color : <input type="text" name="connectorColor" value="rgba(255,255,255,1)" />	</span>	
-					<span>Show Text Shadow : <select name="textShadow">
-						<option value="true" selected>Yes</option>
-						<option value="false">No</option>
-						</select></span>
-					<span>Text Shadow offsetX : <input type="text" name="textShadowOffsetX" value="0" />	</span>	
-					<span>Text Shadow offsetY : <input type="text" name="textShadowOffsetY" value="1" />	</span>	
-					<span>Text Shadow Blur : <input type="text" name="textShadowBlur" value="0" />	</span>	
-					<span>Text Shadow color : <input type="text" name="textShadowColor" value="#5e5e5e" />	</span>			
+					<div class="options_holder">
+						<span>Show Box Seperator : <select name="boxSeparator">
+							<option value="true" selected>Yes</option>
+							<option value="false">No</option>
+							</select></span>
+						<span>Seperator Color : <input type="text" name="boxSeparatorColor" value="rgba(255,255,255,1)" /></span>	
+						<span>Show Connector Line : <select name="connectorLine">
+							<option value="true" selected>Yes</option>
+							<option value="false">No</option>
+							</select></span>
+						<span>Connector Line Color : <input type="text" name="connectorColor" value="rgba(255,255,255,1)" />	</span>	
+						<span>Show Text Shadow : <select name="textShadow">
+							<option value="true" selected>Yes</option>
+							<option value="false">No</option>
+							</select></span>
+						<span>Text Shadow offsetX : <input type="text" name="textShadowOffsetX" value="0" />	</span>	
+						<span>Text Shadow offsetY : <input type="text" name="textShadowOffsetY" value="1" />	</span>	
+						<span>Text Shadow Blur : <input type="text" name="textShadowBlur" value="0" />	</span>	
+						<span>Text Shadow color : <input type="text" name="textShadowColor" value="#5e5e5e" />	</span>
+					</div>		
 				</fieldset>
 				<fieldset>
 					<legend>Today</legend>
-					<span>Box Color : <input type="text" name="todayBoxColor" value="rgba(0,0,0,1)" /></span>
-					<span>Box Seperator Color : <input type="text" name="todayBoxSeparatorColor" value="rgba(255,255,255,1)" /></span>	
-					<span>Font : <input type="text" name="todayBoxFont" value="8pt Lucida Grande,Tahoma,Arial" /></span>
-					<span>Color : <input type="text" name="todayTextColor" value="rgba(255,255,255,1)" />	</span>			
+					<div class="options_holder">
+						<span>Box Color : <input type="text" name="todayBoxColor" value="rgba(0,0,0,1)" /></span>
+						<span>Seperator Color : <input type="text" name="todayBoxSeparatorColor" value="rgba(255,255,255,1)" /></span>	
+						<span>Font : <input type="text" name="todayBoxFont" value="8pt Lucida Grande,Tahoma,Arial" /></span>
+						<span>Color : <input type="text" name="todayTextColor" value="rgba(255,255,255,1)" />	</span>
+					</div>		
 				</fieldset>
 				<fieldset>
 					<legend>Days with Events in them</legend>
-					<span>Box Color : <input type="text" name="eventedBoxColor" value="rgba(0,0,0,1)" /></span>
-					<span>Box Seperator Color : <input type="text" name="eventedBoxSeparatorColor" value="rgba(255,255,255,1)" /></span>	
-					<span>Font : <input type="text" name="eventedBoxFont" value="8pt Lucida Grande,Tahoma,Arial" /></span>
-					<span>Color : <input type="text" name="eventedTextColor" value="rgba(255,255,255,1)" />	</span>			
+					<div class="options_holder">
+						<span>Box Color : <input type="text" name="eventedBoxColor" value="rgba(0,0,0,0.5)" /></span>
+						<span>Seperator Color : <input type="text" name="eventedBoxSeparatorColor" value="rgba(255,255,255,1)" /></span>	
+						<span>Font : <input type="text" name="eventedBoxFont" value="8pt Lucida Grande,Tahoma,Arial" /></span>
+						<span>Color : <input type="text" name="eventedTextColor" value="rgba(255,255,255,1)" />	</span>
+					</div>		
 				</fieldset>
 				<fieldset>
-					<legend>Extraneous Items</legend>
-					<span>Show Month Name : <select name="showMonthName">
-						<option value="true" selected>Yes</option>
-						<option value="false">No</option>
+					<legend>Month Name</legend>
+					<div class="options_holder">
+						<span>Show Month Name : <select name="showMonthName">
+							<option value="true" selected>Yes</option>
+							<option value="false">No</option>
+							</select></span>
+						<span>Horizontal Align : <select name="monthNameHalign">
+							<option value="left" selected>Left</option>
+							<option value="center">Center</option>
+							<option value="right">Right</option>
 						</select></span>
-					<span>Month Name Hor. Align : <select name="monthNameHalign">
-						<option value="left" >Left</option>
-						<option value="center" selected>Center</option>
-						<option value="right">Right</option>
-					</select></span>
-					<span>Month Name Ver. Align : <select name="monthNameValign">
-						<option value="top" >Top</option>
-						<option value="bottom">Bottom</option>
-					</select></span>	
-							
+						<span>Vertical Align : <select name="monthNameValign">
+							<option value="top" selected>Top</option>
+							<option value="bottom">Bottom</option>
+						</select></span>
+					</div>		
+				</fieldset>
+				<fieldset>
+					<legend>Inline Controls</legend>
+					<div class="options_holder">
+						<span>Show Controls : <select name="showControls">
+							<option value="true" selected>Yes</option>
+							<option value="false">No</option>
+							</select></span>
+						<span>Horizontal Align : <select name="controlsHalign">
+							<option value="left" >Left</option>
+							<option value="center">Center</option>
+							<option value="right" selected>Right</option>
+						</select></span>
+						<span>Vertical Align : <select name="controlsValign">
+							<option value="top" selected>Top</option>
+							<option value="bottom">Bottom</option>
+						</select></span>
+					</div>		
 				</fieldset>
 			</form>
 		</div>
+		
+	</div>
+        
+		
 		
     </body>
 </html>
