@@ -24,7 +24,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 (function(){
 	
 	//COMMONLY USED STRINGS
-	var s_align="align",s_startX="startX",s_startY="startY",s_spacing="spacing",s_boxHeight="boxHeight",s_boxWidth="boxWidth",s_cornerRadius="cornerRadius",s_boxFont="boxFont",s_textColor="textColor",s_boxTextAlign="boxTextAlign",s_boxColor="boxColor",s_boxSeparator="boxSeparator",s_boxSeparatorColor="boxSeparatorColor",s_connectorLine="connectorLine",s_connectorColor="connectorColor",s_textShadow="textShadow",s_textShadowOffsetX="textShadowOffsetX",s_textShadowOffsetY="textShadowOffsetY",s_textShadowBlur="textShadowBlur",s_textShadowColor="textShadowColor",s_todayBoxColor="todayBoxColor",s_todayBoxSeparatorColor="todayBoxSeparatorColor",s_todayBoxFont="todayBoxFont",s_todayTextColor="todayTextColor",s_eventedBoxColor="eventedBoxColor",s_eventedBoxSeparatorColor="eventedBoxSeparatorColor",s_eventedBoxFont="eventedBoxFont",s_eventedTextColor="eventedTextColor",s_showMonthName="showMonthName",s_monthNameHalign="monthNameHalign",s_monthNameValign="monthNameValign",s_showControls="showControls",s_controlsHalign="controlsHalign",s_controlsValign="controlsValign",s_white="#FFFFFF",s_undefined="undefined",s_top="top",s_center="center",s_right="right",s_left="left";
+	var s_align="align",s_startX="startX",s_startY="startY",s_spacing="spacing",s_boxHeight="boxHeight",s_boxWidth="boxWidth",s_cornerRadius="cornerRadius",s_boxFont="boxFont",s_textColor="textColor",s_boxTextAlign="boxTextAlign",s_boxColor="boxColor",s_boxSeparator="boxSeparator",s_boxSeparatorColor="boxSeparatorColor",s_connectorLine="connectorLine",s_connectorColor="connectorColor",s_textShadow="textShadow",s_textShadowOffsetX="textShadowOffsetX",s_textShadowOffsetY="textShadowOffsetY",s_textShadowBlur="textShadowBlur",s_textShadowColor="textShadowColor",s_todayBoxColor="todayBoxColor",s_todayBoxSeparatorColor="todayBoxSeparatorColor",s_todayBoxFont="todayBoxFont",s_todayTextColor="todayTextColor",s_eventedBoxColor="eventedBoxColor",s_eventedBoxSeparatorColor="eventedBoxSeparatorColor",s_eventedBoxFont="eventedBoxFont",s_eventedTextColor="eventedTextColor",s_showMonthName="showMonthName",s_monthNameHalign="monthNameHalign",s_monthNameValign="monthNameValign",s_showControls="showControls",s_controlsHalign="controlsHalign",s_controlsValign="controlsValign",s_white="#FFFFFF",s_undefined="undefined",s_top="top",s_center="center",s_right="right",s_left="left",
+	s_cn_lineTo="lineTo",s_cn_moveTo="moveTo",
+	s_cn_save="save",s_cn_restore="restore",
+	s_cn_beginPath="beginPath",s_cn_closePath="closePath",
+	s_cn_fill="fill",s_cn_fillStyle="fillStyle",s_cn_fillRect="fillRect",s_cn_fillText="fillText",
+	s_cn_stroke="stroke",s_cn_strokeStyle="strokeStyle",
+	s_cn_font="font",s_cn_quadraticCurveTo="quadraticCurveTo"
+	;
 
 	//END COMMONLY USED STRINGS
 		
@@ -221,91 +228,91 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var ctx=this.primaryContext;
 			
 			//nav buttons Background
-			ctx.fillStyle = this[s_boxColor];
+			ctx[s_cn_fillStyle] = this[s_boxColor];
 			roundedRect(ctx,0+startX,0+startY,17,117,4);
-			ctx.fill();
+			ctx[s_cn_fill]();
 			
 			
-			ctx.save();			
+			ctx[s_cn_save]();			
 			//*prev Year
-		    ctx.fillStyle = s_white;
-		    ctx.beginPath();
-		    ctx.moveTo(15.99+startX, 2+startY);
-		    ctx.lineTo(5.95+startX, 8.44+startY);
-		    ctx.lineTo(16.02+startX, 15.01+startY);
-		    ctx.closePath();
-		    ctx.fill();
-		    ctx.beginPath();
-		    ctx.moveTo(23.98+startX, 2+startY);
-		    ctx.lineTo(13.94+startX, 8.44+startY);
-		    ctx.lineTo(24.01+startX, 15.01+startY);
-		    ctx.closePath();
-		    ctx.fill();
-			ctx.restore();
+		    ctx[s_cn_fillStyle] = s_white;
+		    ctx[s_cn_beginPath]();
+		    ctx[s_cn_moveTo](15.99+startX, 2+startY);
+		    ctx[s_cn_lineTo](5.95+startX, 8.44+startY);
+		    ctx[s_cn_lineTo](16.02+startX, 15.01+startY);
+		    ctx[s_cn_closePath]();
+		    ctx[s_cn_fill]();
+		    ctx[s_cn_beginPath]();
+		    ctx[s_cn_moveTo](23.98+startX, 2+startY);
+		    ctx[s_cn_lineTo](13.94+startX, 8.44+startY);
+		    ctx[s_cn_lineTo](24.01+startX, 15.01+startY);
+		    ctx[s_cn_closePath]();
+		    ctx[s_cn_fill]();
+			ctx[s_cn_restore]();
 			this.navHotspots.push({x:startX,y:startY,width:27,height:17,type:"prevYear"});
 			//*/
 			startX+=27;
 			
 			//*prev Month
-			ctx.save();
-			ctx.fillStyle = s_white;
-			ctx.beginPath();
-		    ctx.moveTo(15.02+startX, 2+startY);
-		    ctx.lineTo(5.02+startX, 8.44+startY);
-		    ctx.lineTo(15.02+startX, 15.01+startY);
-		    ctx.closePath();
-		    ctx.fill();
-			ctx.restore();
+			ctx[s_cn_save]();
+			ctx[s_cn_fillStyle] = s_white;
+			ctx[s_cn_beginPath]();
+		    ctx[s_cn_moveTo](15.02+startX, 2+startY);
+		    ctx[s_cn_lineTo](5.02+startX, 8.44+startY);
+		    ctx[s_cn_lineTo](15.02+startX, 15.01+startY);
+		    ctx[s_cn_closePath]();
+		    ctx[s_cn_fill]();
+			ctx[s_cn_restore]();
 			this.navHotspots.push({x:startX,y:startY,width:20,height:17,type:"prevMonth"});
 			//*/
 			startX+=19.99;
 			//*now
-			ctx.save();
-			ctx.fillStyle = s_white;
-			ctx.fillRect(5+startX, 2+startY, 13, 13);
-			ctx.restore();
+			ctx[s_cn_save]();
+			ctx[s_cn_fillStyle] = s_white;
+			ctx[s_cn_fillRect](5+startX, 2+startY, 13, 13);
+			ctx[s_cn_restore]();
 			this.navHotspots.push({x:startX,y:startY,width:23,height:17,type:"now"});
 			//*/
 			startX+=22.9;//82.37;
 			//*next month
-			ctx.save();
-			ctx.fillStyle = s_white;
-			ctx.beginPath();
-		    ctx.moveTo(4.98+startX, 2+startY);
-		    ctx.lineTo(14.98+startX, 8.44+startY);
-		    ctx.lineTo(4.98+startX, 15.01+startY);
-		    ctx.closePath();
-		    ctx.fill();
-			ctx.restore();
+			ctx[s_cn_save]();
+			ctx[s_cn_fillStyle] = s_white;
+			ctx[s_cn_beginPath]();
+		    ctx[s_cn_moveTo](4.98+startX, 2+startY);
+		    ctx[s_cn_lineTo](14.98+startX, 8.44+startY);
+		    ctx[s_cn_lineTo](4.98+startX, 15.01+startY);
+		    ctx[s_cn_closePath]();
+		    ctx[s_cn_fill]();
+			ctx[s_cn_restore]();
 			this.navHotspots.push({x:startX,y:startY,width:20,height:17,type:"nextMonth"});
 			//*/
 			startX+=19.92;//102.29;
 			//*next Year
-			ctx.save();
-		    ctx.fillStyle = s_white;
-		    ctx.beginPath();
-		    ctx.moveTo(11.01+startX, 2+startY);
-		    ctx.lineTo(21.06+startX, 8.44+startY);
-		    ctx.lineTo(10.98+startX, 15.01+startY);
-		    ctx.closePath();
-		    ctx.fill();
-		    ctx.beginPath();
-		    ctx.moveTo(3.02+startX, 2+startY);
-		    ctx.lineTo(13.06+startX, 8.44+startY);
-		    ctx.lineTo(2.99+startX, 15.01+startY);
-		    ctx.closePath();
-		    ctx.fill();
-			ctx.restore();
+			ctx[s_cn_save]();
+		    ctx[s_cn_fillStyle] = s_white;
+		    ctx[s_cn_beginPath]();
+		    ctx[s_cn_moveTo](11.01+startX, 2+startY);
+		    ctx[s_cn_lineTo](21.06+startX, 8.44+startY);
+		    ctx[s_cn_lineTo](10.98+startX, 15.01+startY);
+		    ctx[s_cn_closePath]();
+		    ctx[s_cn_fill]();
+		    ctx[s_cn_beginPath]();
+		    ctx[s_cn_moveTo](3.02+startX, 2+startY);
+		    ctx[s_cn_lineTo](13.06+startX, 8.44+startY);
+		    ctx[s_cn_lineTo](2.99+startX, 15.01+startY);
+		    ctx[s_cn_closePath]();
+		    ctx[s_cn_fill]();
+			ctx[s_cn_restore]();
 			this.navHotspots.push({x:startX,y:startY,width:27,height:17,type:"nextYear"});
 			//*/
 		};
 		this.drawMonthName=function(x,y,width,height,radius,text){
 			var ctx=this.primaryContext;
-			ctx.save();
+			ctx[s_cn_save]();
 
-			ctx.fillStyle=this[s_boxColor];
+			ctx[s_cn_fillStyle]=this[s_boxColor];
 			roundedRect(ctx,x,y,height,width,radius);
-			ctx.fill();
+			ctx[s_cn_fill]();
 
 			if(this[s_textShadow]){
 				ctx.shadowOffsetX = this[s_textShadowOffsetX];  
@@ -313,12 +320,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				ctx.shadowBlur = this[s_textShadowBlur];  
 				ctx.shadowColor = this[s_textShadowColor];
 			}
-			ctx.font=this[s_boxFont];
+			ctx[s_cn_font]=this[s_boxFont];
 			ctx.textAlign=this[s_boxTextAlign];
-			ctx.fillStyle = this[s_textColor];
-			ctx.fillText(text, x+(width/2), y+12,width);
+			ctx[s_cn_fillStyle] = this[s_textColor];
+			ctx[s_cn_fillText](text, x+(width/2), y+12,width);
 
-			ctx.restore();
+			ctx[s_cn_restore]();
 		};
 		this.drawMonthBox=function(x,y,width,height,radius,day){
 			var ctx=this.primaryContext;
@@ -330,40 +337,40 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				day.events=this.events[day.date];
 			}
 			//box
-			ctx.fillStyle=notToday?this[s_boxColor]:this[s_todayBoxColor];
-			ctx.fillStyle=hasEvent?this[s_eventedBoxColor]:ctx.fillStyle; 
+			ctx[s_cn_fillStyle]=notToday?this[s_boxColor]:this[s_todayBoxColor];
+			ctx[s_cn_fillStyle]=hasEvent?this[s_eventedBoxColor]:ctx[s_cn_fillStyle]; 
 
 			roundedRect(ctx,x,y,height,width,radius); 
-			ctx.fill();
+			ctx[s_cn_fill]();
 			//box seperator
 			if(this[s_boxSeparator]){
 				var bsc=notToday?this[s_boxSeparatorColor]:this[s_todayBoxSeparatorColor];
 				bsc=hasEvent?this[s_eventedBoxSeparatorColor]:bsc;
-				ctx.strokeStyle=ctx.fillStyle=bsc;
-				ctx.beginPath();  
-				ctx.moveTo(x,y+((height/2)-0)); 
-				ctx.lineTo(x+((width/2)-2),y+((height/2)-0));
-				ctx.lineTo(x+(width/2),y+((height/2)-2));
-				ctx.lineTo(x+((width/2)+2),y+((height/2)-0));  
-				ctx.lineTo(x+width,y+((height/2)-0));
+				ctx[s_cn_strokeStyle]=ctx[s_cn_fillStyle]=bsc;
+				ctx[s_cn_beginPath]();  
+				ctx[s_cn_moveTo](x,y+((height/2)-0)); 
+				ctx[s_cn_lineTo](x+((width/2)-2),y+((height/2)-0));
+				ctx[s_cn_lineTo](x+(width/2),y+((height/2)-2));
+				ctx[s_cn_lineTo](x+((width/2)+2),y+((height/2)-0));  
+				ctx[s_cn_lineTo](x+width,y+((height/2)-0));
 
-				ctx.lineTo(x+width,y+((height/2)+0));
-				ctx.lineTo(x+((width/2)+2),y+((height/2)+0));
-				ctx.lineTo(x+(width/2),y+((height/2)+2));  
-				ctx.lineTo(x+((width/2)-2),y+((height/2)+0));
-				ctx.lineTo(x,y+((height/2)+0));
-				ctx.lineTo(x,y+((height/2)-0));
-				ctx.closePath();
-				ctx.stroke();
-				ctx.fill();
+				ctx[s_cn_lineTo](x+width,y+((height/2)+0));
+				ctx[s_cn_lineTo](x+((width/2)+2),y+((height/2)+0));
+				ctx[s_cn_lineTo](x+(width/2),y+((height/2)+2));  
+				ctx[s_cn_lineTo](x+((width/2)-2),y+((height/2)+0));
+				ctx[s_cn_lineTo](x,y+((height/2)+0));
+				ctx[s_cn_lineTo](x,y+((height/2)-0));
+				ctx[s_cn_closePath]();
+				ctx[s_cn_stroke]();
+				ctx[s_cn_fill]();
 
 				if(!notToday){
-					ctx.fillRect(x+((width/2)-3),y+((height/2)-3),6,6);
+					ctx[s_cn_fillRect](x+((width/2)-3),y+((height/2)-3),6,6);
 				}
 
 			}
 			//text
-			ctx.save();
+			ctx[s_cn_save]();
 			if(this[s_textShadow]){
 				ctx.shadowOffsetX = this[s_textShadowOffsetX];  
 				ctx.shadowOffsetY = this[s_textShadowOffsetY];  
@@ -373,17 +380,17 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 			var fnt=notToday?this[s_boxFont]:this[s_todayBoxFont];
 			fnt=hasEvent?this[s_eventedBoxFont]:fnt;
-			ctx.font=fnt;
+			ctx[s_cn_font]=fnt;
 
 			ctx.textAlign=this[s_boxTextAlign];
 
 			var tfl=notToday?this[s_textColor]:this[s_todayTextColor];
 			tfl=hasEvent?this[s_eventedTextColor]:tfl;
-			ctx.fillStyle = tfl;
+			ctx[s_cn_fillStyle] = tfl;
 
-			ctx.fillText(day.shortname, x+(width/2), y+12,width);
-			ctx.fillText(day.num, x+(width/2), y+(height-4),width);
-			ctx.restore();
+			ctx[s_cn_fillText](day.shortname, x+(width/2), y+12,width);
+			ctx[s_cn_fillText](day.num, x+(width/2), y+(height-4),width);
+			ctx[s_cn_restore]();
 
 			//add this day to hotspots stack
 			this.eventHotspots.push({x:x,y:y,width:width,height:height,day:day});
@@ -391,43 +398,43 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		};
 		this.drawConnectorLine=function(x,y,length){
 			var ctx=this.primaryContext;
-			ctx.save();
-			ctx.strokeStyle=this[s_connectorColor];
-			ctx.moveTo(x,y);
-			ctx.lineTo(length,y);
-			ctx.stroke();
-			ctx.restore();
+			ctx[s_cn_save]();
+			ctx[s_cn_strokeStyle]=this[s_connectorColor];
+			ctx[s_cn_moveTo](x,y);
+			ctx[s_cn_lineTo](length,y);
+			ctx[s_cn_stroke]();
+			ctx[s_cn_restore]();
 		};
 		
 		/*private*/function roundedRect(ctx,x,y,height,width,radius,corners){
 			corners=corners||[1,1,1,1];
-			ctx.beginPath();  
-			ctx.moveTo(x,y+radius); 
+			ctx[s_cn_beginPath]();  
+			ctx[s_cn_moveTo](x,y+radius); 
 			if(corners[3]!==1){
-				ctx.lineTo(x,y+height);
+				ctx[s_cn_lineTo](x,y+height);
 			}else{
-				ctx.lineTo(x,y+height-radius);  
-				ctx.quadraticCurveTo(x,y+height,x+radius,y+height);
+				ctx[s_cn_lineTo](x,y+height-radius);  
+				ctx[s_cn_quadraticCurveTo](x,y+height,x+radius,y+height);
 			}  
 			if(corners[2]!==1){
-				ctx.lineTo(x+width,y+height);
+				ctx[s_cn_lineTo](x+width,y+height);
 			}else{
-				ctx.lineTo(x+width-radius,y+height);  
-				ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);	
+				ctx[s_cn_lineTo](x+width-radius,y+height);  
+				ctx[s_cn_quadraticCurveTo](x+width,y+height,x+width,y+height-radius);	
 			}
 			if(corners[1]!==1){
-				ctx.lineTo(x+width,y);
+				ctx[s_cn_lineTo](x+width,y);
 			}else{
-				ctx.lineTo(x+width,y+radius);  
-				ctx.quadraticCurveTo(x+width,y,x+width-radius,y);
+				ctx[s_cn_lineTo](x+width,y+radius);  
+				ctx[s_cn_quadraticCurveTo](x+width,y,x+width-radius,y);
 			}
 			if(corners[0]!==1){
-				ctx.lineTo(x,y);
+				ctx[s_cn_lineTo](x,y);
 			}else{
-				ctx.lineTo(x+radius,y);  
-				ctx.quadraticCurveTo(x,y,x,y+radius);
+				ctx[s_cn_lineTo](x+radius,y);  
+				ctx[s_cn_quadraticCurveTo](x,y,x,y+radius);
 			} 
-			ctx.closePath();
+			ctx[s_cn_closePath]();
 		}
 		//-----------END DRAWINGS
 		
